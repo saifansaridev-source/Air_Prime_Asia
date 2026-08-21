@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= typeof title !== 'undefined' ? title : 'Admin Panel — Gallery | Air Prime Asia' %></title>
-  <meta name="description" content="Admin gallery management panel for Air Prime Asia.">
+  <title><%= typeof title !== 'undefined' ? title : 'Admin Panel — Photo Gallery | Air Prime Asia' %></title>
+  <meta name="description" content="Admin Photo Gallery management panel for Air Prime Asia.">
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -156,7 +156,7 @@
     }
 
     .content-area {
-      padding: 32px 28px;
+      padding: 28px 32px;
       max-width: 1400px;
       margin: 0 auto;
     }
@@ -165,482 +165,354 @@
        STATS ROW
     ═══════════════════════════════════════════════ */
     .stats-row {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 16px; margin-bottom: 28px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-bottom: 28px;
     }
+
     .stat-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 14px; padding: 20px 22px;
-      display: flex; align-items: center; gap: 16px;
-      backdrop-filter: blur(8px);
+      border-radius: 14px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .stat-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(244, 179, 36, 0.3);
     }
     .stat-icon {
-      width: 44px; height: 44px; border-radius: 10px;
+      width: 50px; height: 50px;
+      border-radius: 12px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; flex-shrink: 0;
+      font-size: 1.3rem; flex-shrink: 0;
     }
-    .stat-icon.gold  { background: rgba(244, 179, 36, 0.15); color: var(--gold); }
-    .stat-icon.blue  { background: rgba(59, 130, 246, 0.15); color: #60A5FA; }
-    .stat-icon.green { background: rgba(16, 185, 129, 0.15); color: #34D399; }
+    .stat-icon.gold { background: rgba(244, 179, 36, 0.15); color: var(--gold); }
+    .stat-icon.blue { background: rgba(59, 130, 246, 0.15); color: #60A5FA; }
+    .stat-icon.green { background: rgba(16, 185, 129, 0.15); color: var(--success); }
     .stat-info strong {
       display: block; font-family: 'Outfit', sans-serif;
       font-size: 1.6rem; font-weight: 700; color: var(--white); line-height: 1.1;
     }
-    .stat-info span { font-size: 0.8rem; color: var(--text-muted); }
+    .stat-info span {
+      font-size: 0.8rem; color: var(--text-muted); font-weight: 500;
+    }
 
     /* ═══════════════════════════════════════════════
-       UPLOAD ZONE
+       UPLOAD SECTION
     ═══════════════════════════════════════════════ */
     .section-header {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
     }
     .section-title {
-      font-family: 'Outfit', sans-serif; font-size: 1.1rem;
-      font-weight: 700; color: var(--white); display: flex; align-items: center; gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--white);
+      display: flex; align-items: center; gap: 8px;
     }
-    .section-title i { color: var(--gold); font-size: 1rem; }
+    .section-title i { color: var(--gold); font-size: 0.95rem; }
 
     .upload-zone {
+      background: var(--bg-card);
       border: 2px dashed rgba(244, 179, 36, 0.35);
-      border-radius: 16px; padding: 36px 24px;
-      text-align: center; cursor: pointer;
-      background: rgba(244, 179, 36, 0.025);
-      transition: all 0.25s; margin-bottom: 28px;
-      position: relative; overflow: hidden;
+      border-radius: 16px;
+      padding: 36px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+      margin-bottom: 28px;
     }
     .upload-zone:hover, .upload-zone.drag-over {
       border-color: var(--gold);
-      background: rgba(244, 179, 36, 0.08);
-      transform: scale(1.003);
+      background: rgba(244, 179, 36, 0.05);
     }
     .upload-zone input[type="file"] {
       position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
     }
-    .upload-icon { font-size: 2.6rem; color: var(--gold); opacity: 0.85; margin-bottom: 12px; }
-    .upload-title { font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: 6px; }
-    .upload-sub { font-size: 0.84rem; color: var(--text-muted); }
+    .upload-icon {
+      font-size: 2.4rem; color: var(--gold); margin-bottom: 12px;
+      transition: transform 0.2s;
+    }
+    .upload-zone:hover .upload-icon { transform: translateY(-4px); }
+    .upload-title {
+      font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 600;
+      color: var(--white); margin-bottom: 6px;
+    }
+    .upload-sub {
+      font-size: 0.82rem; color: var(--text-muted); margin-bottom: 14px;
+    }
     .upload-types {
-      margin-top: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
+      display: flex; justify-content: center; gap: 6px;
     }
     .type-badge {
-      padding: 3px 10px; border-radius: 20px;
-      background: rgba(255, 255, 255, 0.06);
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em;
+      padding: 3px 8px; border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06); color: var(--text-dimmed);
       border: 1px solid var(--border);
-      font-size: 0.72rem; color: var(--text-muted); font-weight: 500;
     }
 
-    /* ═══════════════════════════════════════════════
-       PROGRESS BAR
-    ═══════════════════════════════════════════════ */
+    /* Upload progress bar */
     .upload-progress {
-      display: none; margin-bottom: 24px;
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 16px 20px;
+      display: none;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
     }
     .upload-progress.show { display: block; }
     .progress-label {
-      font-size: 0.84rem; color: var(--text-muted); margin-bottom: 10px;
       display: flex; justify-content: space-between;
+      font-size: 0.83rem; font-weight: 500; color: var(--text-muted);
+      margin-bottom: 8px;
     }
-    .progress-bar-wrap { height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 99px; overflow: hidden; }
-    .progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-dark)); border-radius: 99px; width: 0%; transition: width 0.2s; }
+    .progress-bar-wrap {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 6px; height: 8px; overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--gold) 0%, #FBBF24 100%);
+      border-radius: 6px; transition: width 0.3s ease;
+    }
 
     /* ═══════════════════════════════════════════════
        GALLERY TOOLBAR
     ═══════════════════════════════════════════════ */
     .gallery-toolbar {
-      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-    .search-wrap { position: relative; flex: 1; min-width: 200px; max-width: 360px; }
-    .search-wrap i { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--text-dimmed); font-size: 0.85rem; }
-    .search-input {
-      width: 100%; padding: 9px 14px 9px 38px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border);
-      border-radius: 10px; color: var(--white);
-      font-size: 0.88rem; font-family: 'Inter', sans-serif;
-      outline: none; transition: all 0.2s;
-    }
-    .search-input::placeholder { color: var(--text-dimmed); }
-    .search-input:focus { border-color: rgba(244, 179, 36, 0.4); background: rgba(244, 179, 36, 0.03); }
-
-    .view-toggle {
-      display: flex; gap: 4px; background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border); border-radius: 10px; padding: 4px;
-    }
-    .view-btn {
-      width: 34px; height: 34px; border-radius: 7px;
-      background: none; border: none; color: var(--text-dimmed);
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; transition: all 0.2s;
-    }
-    .view-btn.active { background: rgba(244, 179, 36, 0.15); color: var(--gold); }
-    .view-btn:hover:not(.active) { color: var(--text-primary); background: rgba(255, 255, 255, 0.04); }
-
-    .btn-action {
-      padding: 8px 16px; border-radius: 10px;
-      font-size: 0.85rem; font-weight: 500; cursor: pointer;
-      transition: all 0.2s; border: 1px solid var(--border);
-      display: flex; align-items: center; gap: 6px;
-    }
-    .select-all-btn { background: rgba(255, 255, 255, 0.05); color: var(--text-muted); }
-    .select-all-btn:hover { background: rgba(255, 255, 255, 0.09); color: var(--white); }
-    .delete-selected-btn {
-      background: rgba(239, 68, 68, 0.12); color: #FCA5A5;
-      border-color: rgba(239, 68, 68, 0.25); display: none;
-    }
-    .delete-selected-btn:hover { background: rgba(239, 68, 68, 0.25); }
-    .delete-selected-btn.visible { display: flex; }
-
-    .refresh-btn {
-      background: rgba(255, 255, 255, 0.05); color: var(--text-muted);
-      width: 36px; height: 36px; padding: 0; justify-content: center;
-    }
-    .refresh-btn:hover { color: var(--gold); }
-
-    /* ═══════════════════════════════════════════════
-       GALLERY GRID
-    ═══════════════════════════════════════════════ */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-      gap: 16px;
-    }
-    .gallery-grid.list-view {
-      grid-template-columns: 1fr; gap: 10px;
-    }
-
-    .gallery-item {
-      position: relative; border-radius: 12px; overflow: hidden;
-      background: rgba(16, 30, 66, 0.6); border: 1px solid var(--border);
-      cursor: pointer; transition: all 0.25s;
-    }
-    .gallery-item:hover { border-color: rgba(244, 179, 36, 0.35); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); }
-    .gallery-item.selected { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(244, 179, 36, 0.35); }
-
-    .gallery-grid:not(.list-view) .gallery-item {
-      aspect-ratio: 1;
-    }
-
-    .img-thumb-wrap { position: relative; width: 100%; height: 100%; overflow: hidden; background: #070D1E; }
-
-    .gallery-img {
-      width: 100%; height: 100%;
-      object-fit: cover; display: block;
-      transition: transform 0.35s ease;
-    }
-    .gallery-grid:not(.list-view) .gallery-item:hover .gallery-img { transform: scale(1.06); }
-
-    /* list view item */
-    .gallery-grid.list-view .gallery-item {
-      display: flex; align-items: center; gap: 14px;
-      padding: 12px 16px; aspect-ratio: unset;
-    }
-    .gallery-grid.list-view .img-thumb-wrap {
-      width: 56px; height: 56px; border-radius: 8px; overflow: hidden; flex-shrink: 0;
-    }
-    .gallery-grid.list-view .gallery-img { width: 56px; height: 56px; border-radius: 8px; }
-    .gallery-grid.list-view .item-overlay { display: none; }
-    .gallery-grid.list-view .item-info { flex: 1; min-width: 0; }
-    .gallery-grid.list-view .item-name {
-      display: block; font-size: 0.9rem; color: var(--white); font-weight: 500;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .gallery-grid.list-view .item-meta { display: flex; gap: 16px; margin-top: 3px; }
-    .gallery-grid.list-view .item-meta span { font-size: 0.75rem; color: var(--text-dimmed); }
-    .gallery-grid.list-view .list-actions { display: flex; gap: 8px; }
-
-    .item-name { display: none; }
-    .item-info { display: none; }
-    .list-actions { display: none; }
-
-    /* overlay on grid view */
-    .item-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to top, rgba(10, 17, 40, 0.9) 0%, rgba(0, 0, 0, 0.2) 40%, transparent 70%);
-      opacity: 0; transition: opacity 0.25s;
-      display: flex; flex-direction: column; justify-content: space-between;
-      padding: 10px;
-    }
-    .gallery-item:hover .item-overlay { opacity: 1; }
-
-    .overlay-top { display: flex; justify-content: flex-end; }
-    .overlay-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-
-    .cb-select {
-      width: 22px; height: 22px; border-radius: 6px;
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      background: rgba(0, 0, 0, 0.5); cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s; flex-shrink: 0;
-    }
-    .gallery-item.selected .cb-select,
-    .cb-select.checked {
-      background: var(--gold); border-color: var(--gold);
-    }
-    .cb-select i { font-size: 0.7rem; color: var(--navy); display: none; }
-    .gallery-item.selected .cb-select i,
-    .cb-select.checked i { display: block; }
-
-    .item-filename {
-      font-size: 0.75rem; color: rgba(255, 255, 255, 0.9);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-      max-width: 100px; font-weight: 500;
-    }
-
-    .overlay-actions { display: flex; gap: 6px; }
-    .action-btn {
-      width: 30px; height: 30px; border-radius: 8px;
-      background: rgba(255, 255, 255, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: var(--white); cursor: pointer; font-size: 0.8rem;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s; text-decoration: none;
-    }
-    .action-btn:hover { background: rgba(255, 255, 255, 0.3); color: var(--white); }
-    .action-btn.del { background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.3); color: #FCA5A5; }
-    .action-btn.del:hover { background: rgba(239, 68, 68, 0.4); }
-
-    /* list view inline action btns */
-    .list-action-btn {
-      width: 34px; height: 34px; border-radius: 8px;
-      border: 1px solid var(--border); background: rgba(255, 255, 255, 0.04);
-      color: var(--text-muted); cursor: pointer; font-size: 0.85rem;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s; text-decoration: none;
-    }
-    .list-action-btn:hover { color: var(--white); border-color: rgba(255, 255, 255, 0.2); }
-    .list-action-btn.del { color: #FCA5A5; border-color: rgba(239, 68, 68, 0.25); }
-    .list-action-btn.del:hover { background: rgba(239, 68, 68, 0.15); }
-
-    /* Quick Tag Mode button */
-    .btn-action.quick-tag-btn {
-      background: linear-gradient(135deg, rgba(244,179,36,0.2) 0%, rgba(244,179,36,0.1) 100%);
-      border-color: rgba(244, 179, 36, 0.6);
-      color: var(--gold);
-      font-weight: 600;
-      letter-spacing: 0.02em;
-    }
-    .btn-action.quick-tag-btn:hover {
-      background: var(--gold);
-      color: var(--navy);
-      box-shadow: 0 0 18px rgba(244, 179, 36, 0.35);
-    }
-
-    /* ═══════════════════════════════════════════════
-       QUICK TAG MODE MODAL
-    ═══════════════════════════════════════════════ */
-    .qtm-overlay {
-      position: fixed; inset: 0; z-index: 10000;
-      background: linear-gradient(160deg, #080e22 0%, #0a1128 60%, #0d1940 100%);
-      display: none; flex-direction: column;
-      overflow: hidden;
-    }
-    .qtm-overlay.open { display: flex; animation: fadeIn 0.25s ease; }
-
-    /* Header bar */
-    .qtm-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 24px;
-      border-bottom: 1px solid rgba(244,179,36,0.2);
-      background: rgba(10,17,40,0.95);
-      flex-shrink: 0;
-    }
-    .qtm-progress {
-      font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;
-      color: var(--gold);
-      background: rgba(244,179,36,0.1);
-      border: 1px solid rgba(244,179,36,0.3);
-      border-radius: 8px; padding: 5px 14px;
-    }
-    .qtm-title {
-      font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 700;
-      color: var(--white); letter-spacing: 0.03em;
-    }
-    .qtm-close {
-      background: rgba(255,255,255,0.06); border: 1px solid var(--border);
-      color: var(--text-muted); border-radius: 9px;
-      padding: 7px 16px; font-size: 0.88rem; cursor: pointer;
-      transition: all 0.2s; font-family: inherit;
-    }
-    .qtm-close:hover { background: rgba(239,68,68,0.2); color: #FCA5A5; border-color: rgba(239,68,68,0.4); }
-
-    /* Stage (image area) */
-    .qtm-stage {
-      flex: 1; display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 12px;
-      padding: 24px 24px 12px;
-      min-height: 0;
-    }
-    .qtm-loading, .qtm-done {
-      text-align: center; color: var(--text-muted);
-    }
-    .qtm-loading i { font-size: 2.5rem; color: var(--gold); margin-bottom: 14px; display: block; }
-    .qtm-loading p { font-size: 1rem; }
-
-    .qtm-done-icon { font-size: 3.5rem; margin-bottom: 16px; }
-    .qtm-done-title {
-      font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 700;
-      color: var(--white); margin-bottom: 8px;
-    }
-    .qtm-done-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 28px; }
-    .qtm-done-close {
-      background: var(--gold); border: none; color: var(--navy);
-      font-weight: 700; font-size: 1rem; padding: 12px 36px;
-      border-radius: 10px; cursor: pointer; transition: all 0.2s;
-      font-family: inherit;
-    }
-    .qtm-done-close:hover { background: var(--gold-dark); }
-
-    /* Image viewer */
-    .qtm-viewer {
-      display: flex; flex-direction: column; align-items: center;
-      gap: 10px; width: 100%; min-height: 0; flex: 1;
-    }
-    .qtm-img-wrap {
-      flex: 1; min-height: 0; width: 100%;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .qtm-img {
-      max-height: 70vh; max-width: 100%;
-      object-fit: contain; border-radius: 10px;
-      box-shadow: 0 20px 70px rgba(0,0,0,0.7);
-      transition: opacity 0.2s ease;
-    }
-    .qtm-img.fading { opacity: 0; }
-    .qtm-filename {
-      font-size: 0.82rem; color: var(--text-dimmed);
-      text-align: center; max-width: 600px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .qtm-kbd-hint {
-      font-size: 0.75rem; color: var(--text-dimmed);
-      margin-top: 2px;
-    }
-    .qtm-kbd-hint kbd {
-      display: inline-block; background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 4px; padding: 1px 5px;
-      font-size: 0.72rem; font-family: inherit;
-    }
-
-    /* Category action buttons */
-    .qtm-actions {
-      display: flex; flex-wrap: wrap; gap: 10px;
-      justify-content: center; padding: 14px 24px 20px;
-      flex-shrink: 0;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      background: rgba(10,17,40,0.8);
-    }
-    .qtm-cat-btn {
-      display: flex; align-items: center; gap: 8px;
-      padding: 12px 20px; border-radius: 10px;
-      border: 1px solid rgba(244,179,36,0.45);
-      background: rgba(244,179,36,0.07);
-      color: var(--text-primary);
-      font-family: 'Outfit', sans-serif; font-size: 0.92rem; font-weight: 600;
-      cursor: pointer; transition: all 0.15s; flex-shrink: 0;
-    }
-    .qtm-cat-btn:hover {
-      background: var(--gold); color: var(--navy);
-      border-color: var(--gold);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(244,179,36,0.3);
-    }
-    .qtm-cat-btn:active { transform: translateY(0); }
-    .qtm-skip-btn {
-      border-color: rgba(255,255,255,0.15);
-      background: rgba(255,255,255,0.04);
-      color: var(--text-muted);
-    }
-    .qtm-skip-btn:hover {
-      background: rgba(255,255,255,0.1);
-      color: var(--white); border-color: rgba(255,255,255,0.3);
-    }
-    .qtm-key {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 20px; height: 20px; border-radius: 5px;
-      background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.2);
-      font-size: 0.68rem; font-family: monospace; flex-shrink: 0;
-    }
-    .qtm-cat-btn:hover .qtm-key {
-      background: rgba(10,17,40,0.5); border-color: rgba(10,17,40,0.3);
-    }
-    @media (max-width: 640px) {
-      .qtm-cat-btn { padding: 10px 14px; font-size: 0.82rem; }
-      .qtm-actions { gap: 8px; padding: 12px 12px 16px; }
-      .qtm-key { display: none; }
-    }
-
-    /* Page Select Dropdowns & Bulk Actions */
-    .filter-page-select, .bulk-page-select, .upload-page-select {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--border);
-      color: var(--text-primary);
-      border-radius: 9px;
-      padding: 8px 12px;
-      font-size: 0.84rem;
-      font-family: inherit;
-      outline: none;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .filter-page-select:focus, .bulk-page-select:focus, .upload-page-select:focus {
-      border-color: var(--gold);
-      background: rgba(16, 30, 66, 0.95);
-    }
-    .filter-page-select option, .bulk-page-select option, .upload-page-select option {
-      background: var(--navy-mid);
-      color: var(--text-primary);
-    }
-    .bulk-group {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
+      margin-bottom: 20px;
       flex-wrap: wrap;
     }
-    .btn-action.apply-bulk-btn {
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 220px;
+    }
+    .search-wrap i {
+      position: absolute; left: 14px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dimmed); font-size: 0.88rem;
+    }
+    .search-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 14px 9px 38px;
+      color: var(--text-primary);
+      font-size: 0.86rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .search-input:focus {
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .search-input::placeholder { color: var(--text-dimmed); }
+
+    .view-toggle {
+      display: flex;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .view-btn {
+      background: none; border: none;
+      color: var(--text-muted);
+      padding: 6px 10px; border-radius: 7px;
+      cursor: pointer; font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .view-btn.active, .view-btn:hover {
       background: rgba(244, 179, 36, 0.15);
+      color: var(--gold);
+    }
+
+    .btn-action {
+      display: flex; align-items: center; gap: 7px;
+      padding: 8px 14px; border-radius: 10px;
+      font-size: 0.84rem; font-weight: 500; font-family: inherit;
+      cursor: pointer; transition: all 0.2s;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-muted);
+    }
+    .btn-action:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--white);
+    }
+    .btn-action.select-all-btn:hover {
       border-color: rgba(244, 179, 36, 0.4);
       color: var(--gold);
     }
-    .btn-action.apply-bulk-btn:hover:not(:disabled) {
-      background: var(--gold);
-      color: var(--navy);
+    .btn-action.delete-selected-btn {
+      color: #FCA5A5;
+      border-color: rgba(239, 68, 68, 0.3);
+      background: rgba(239, 68, 68, 0.08);
+      display: none;
     }
-    .btn-action:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-      pointer-events: none;
+    .btn-action.delete-selected-btn.visible { display: flex; }
+    .btn-action.delete-selected-btn:hover {
+      background: var(--error);
+      color: var(--white);
+    }
+    .btn-action.refresh-btn:hover {
+      color: var(--gold);
     }
 
-    /* Page Category Badges */
-    .page-badge {
-      display: inline-flex;
-      align-items: center;
-      font-size: 0.68rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 6px;
-      text-transform: capitalize;
-      letter-spacing: 0.02em;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      color: #D1D5DB;
+    /* ═══════════════════════════════════════════════
+       GALLERY GRID VIEW
+    ═══════════════════════════════════════════════ */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
     }
-    .page-badge.badge-home { color: #60A5FA; border-color: rgba(96, 165, 250, 0.4); background: rgba(30, 58, 138, 0.75); }
-    .page-badge.badge-flying-training { color: #34D399; border-color: rgba(52, 211, 153, 0.4); background: rgba(6, 78, 59, 0.75); }
-    .page-badge.badge-ground-training { color: #FBBF24; border-color: rgba(251, 191, 36, 0.4); background: rgba(120, 53, 15, 0.75); }
-    .page-badge.badge-gallery-alumni { color: #A78BFA; border-color: rgba(167, 139, 250, 0.4); background: rgba(76, 29, 149, 0.75); }
-    .page-badge.badge-gallery-student { color: #F472B6; border-color: rgba(244, 114, 182, 0.4); background: rgba(131, 24, 67, 0.75); }
-    .page-badge.badge-gallery-media { color: #38BDF8; border-color: rgba(56, 189, 248, 0.4); background: rgba(12, 74, 110, 0.75); }
-    .page-badge.badge-cabin-crew { color: #FB923C; border-color: rgba(251, 146, 60, 0.4); background: rgba(124, 45, 18, 0.75); }
-    .page-badge.badge-uncategorized { color: #9CA3AF; border-color: rgba(156, 163, 175, 0.3); background: rgba(31, 41, 55, 0.75); }
+
+    .gallery-item {
+      position: relative;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      aspect-ratio: 1 / 1;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .gallery-item:hover {
+      transform: translateY(-3px);
+      border-color: rgba(244, 179, 36, 0.4);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+    .gallery-item.selected {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 2px var(--gold);
+    }
+
+    .gallery-item .img-thumb-wrap {
+      width: 100%; height: 100%; position: relative;
+    }
+    .gallery-item img.gallery-img {
+      width: 100%; height: 100%; object-fit: cover;
+      display: block; transition: transform 0.3s;
+    }
+    .gallery-item:hover img.gallery-img {
+      transform: scale(1.04);
+    }
+
+    /* Hover overlay on card */
+    .item-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(10, 17, 40, 0.4) 0%, rgba(10, 17, 40, 0.85) 100%);
+      opacity: 0;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      padding: 10px;
+      transition: opacity 0.2s ease;
+    }
+    .gallery-item:hover .item-overlay,
+    .gallery-item.selected .item-overlay {
+      opacity: 1;
+    }
+
+    .overlay-top {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cb-select {
+      width: 22px; height: 22px; border-radius: 6px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
+      display: flex; align-items: center; justify-content: center;
+      color: transparent; font-size: 0.7rem;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .cb-select.checked, .gallery-item.selected .cb-select {
+      background: var(--gold); border-color: var(--gold);
+      color: var(--navy);
+    }
+
+    .overlay-bottom {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .item-filename {
+      font-size: 0.76rem; color: var(--white); font-weight: 500;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .overlay-actions {
+      display: flex; gap: 6px; justify-content: flex-end;
+    }
+    .action-btn {
+      width: 28px; height: 28px; border-radius: 7px;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--white); font-size: 0.72rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.15s;
+      text-decoration: none;
+    }
+    .action-btn:hover {
+      background: var(--gold); color: var(--navy); border-color: var(--gold);
+    }
+    .action-btn.del:hover {
+      background: var(--error); color: var(--white); border-color: var(--error);
+    }
+
+    /* ═══════════════════════════════════════════════
+       GALLERY LIST VIEW
+    ═══════════════════════════════════════════════ */
+    .gallery-grid.list-view {
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .gallery-grid.list-view .gallery-item {
+      aspect-ratio: unset;
+      height: 64px;
+      display: flex; align-items: center;
+      padding: 8px 14px; gap: 14px;
+    }
+    .gallery-grid.list-view .img-thumb-wrap {
+      width: 48px; height: 48px; flex-shrink: 0;
+      border-radius: 8px; overflow: hidden;
+    }
+    .gallery-grid.list-view .item-overlay { display: none; }
+    .gallery-grid.list-view .item-info {
+      flex: 1; min-width: 0;
+    }
+    .gallery-grid.list-view .item-name {
+      font-size: 0.88rem; font-weight: 500; color: var(--white);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      display: block; margin-bottom: 2px;
+    }
+    .gallery-grid.list-view .item-meta {
+      font-size: 0.75rem; color: var(--text-dimmed); display: flex; gap: 12px;
+    }
+    .gallery-grid.list-view .list-actions {
+      display: flex; gap: 6px; flex-shrink: 0;
+    }
+    .gallery-grid.list-view .list-action-btn {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border);
+      color: var(--text-muted); font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.15s; text-decoration: none;
+    }
+    .gallery-grid.list-view .list-action-btn:hover {
+      background: var(--gold); color: var(--navy); border-color: var(--gold);
+    }
+    .gallery-grid.list-view .list-action-btn.del:hover {
+      background: var(--error); color: var(--white); border-color: var(--error);
+    }
 
     /* ═══════════════════════════════════════════════
        EMPTY & LOADING STATES
@@ -799,7 +671,7 @@
       <div class="nav-section-label">Management</div>
       <a class="nav-link active" id="nav-gallery" href="/admin/panel" role="menuitem" aria-current="page">
         <i class="fas fa-images"></i>
-        Gallery
+        Photo Gallery
       </a>
     </nav>
 
@@ -819,7 +691,7 @@
     <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle sidebar" aria-expanded="false">
       <i class="fas fa-bars"></i>
     </button>
-    <div class="topbar-title">Gallery <span>Management</span></div>
+    <div class="topbar-title">Photo Gallery <span>Management</span></div>
     <div class="topbar-user">
       <div class="topbar-badge">
         <i class="fas fa-circle"></i>
@@ -858,21 +730,8 @@
       </div>
 
       <!-- Upload Section -->
-      <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <div class="section-header">
         <div class="section-title"><i class="fas fa-cloud-upload-alt"></i> Upload Images</div>
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <label for="upload-page-select" style="font-size: 0.85rem; color: var(--text-muted);">Upload Category:</label>
-          <select class="upload-page-select" id="upload-page-select" aria-label="Select target page for uploaded images">
-            <option value="uncategorized">Uncategorized</option>
-            <option value="home">Home</option>
-            <option value="flying-training">Flying Training</option>
-            <option value="ground-training">Ground Training</option>
-            <option value="gallery-alumni">Alumni Gallery</option>
-            <option value="gallery-student">Student Gallery</option>
-            <option value="gallery-media">Media Gallery</option>
-            <option value="cabin-crew">Cabin Crew</option>
-          </select>
-        </div>
       </div>
 
       <div class="upload-zone" id="upload-zone" role="button" tabindex="0" aria-label="Upload images area">
@@ -891,7 +750,7 @@
       <!-- Upload Progress -->
       <div class="upload-progress" id="upload-progress">
         <div class="progress-label">
-          <span id="progress-text">Uploading to Cloudflare R2…</span>
+          <span id="progress-text">Uploading images…</span>
           <span id="progress-pct">0%</span>
         </div>
         <div class="progress-bar-wrap">
@@ -910,17 +769,6 @@
           <i class="fas fa-search"></i>
           <input type="text" class="search-input" id="search-input" placeholder="Search by name…" aria-label="Search images">
         </div>
-        <select class="filter-page-select" id="filter-page-select" aria-label="Filter by page">
-          <option value="all">All Categories</option>
-          <option value="home">Home</option>
-          <option value="flying-training">Flying Training</option>
-          <option value="ground-training">Ground Training</option>
-          <option value="gallery-alumni">Alumni Gallery</option>
-          <option value="gallery-student">Student Gallery</option>
-          <option value="gallery-media">Media Gallery</option>
-          <option value="cabin-crew">Cabin Crew</option>
-          <option value="uncategorized">Uncategorized</option>
-        </select>
         <div class="view-toggle">
           <button class="view-btn active" id="grid-btn" title="Grid view" aria-label="Grid view">
             <i class="fas fa-th"></i>
@@ -932,27 +780,8 @@
         <button class="btn-action select-all-btn" id="select-all-btn">
           <i class="fas fa-check-square"></i> Select All
         </button>
-        <div class="bulk-group">
-          <select id="bulk-page-select" class="bulk-page-select" aria-label="Select target page category for bulk update">
-            <option value="" disabled selected>Assign to Page...</option>
-            <option value="home">Home</option>
-            <option value="flying-training">Flying Training</option>
-            <option value="ground-training">Ground Training</option>
-            <option value="gallery-alumni">Alumni Gallery</option>
-            <option value="gallery-student">Student Gallery</option>
-            <option value="gallery-media">Media Gallery</option>
-            <option value="cabin-crew">Cabin Crew</option>
-            <option value="uncategorized">Uncategorized</option>
-          </select>
-          <button class="btn-action apply-bulk-btn" id="apply-bulk-btn" disabled>
-            <i class="fas fa-tags"></i> Apply (<span id="bulk-sel-count">0</span>)
-          </button>
-        </div>
         <button class="btn-action delete-selected-btn" id="delete-selected-btn">
-          <i class="fas fa-trash-alt"></i> Delete (<span id="sel-count">0</span>)
-        </button>
-        <button class="btn-action quick-tag-btn" id="quick-tag-btn" title="Rapidly tag uncategorized images one by one">
-          ⚡ Quick Tag Mode
+          <i class="fas fa-trash-alt"></i> Delete Selected (<span id="sel-count">0</span>)
         </button>
         <button class="btn-action refresh-btn" id="refresh-btn" title="Refresh gallery">
           <i class="fas fa-sync-alt" id="refresh-icon"></i>
@@ -970,7 +799,7 @@
       <div class="empty-state" id="empty-state">
         <div class="empty-icon"><i class="fas fa-images"></i></div>
         <div class="empty-title">No images in gallery</div>
-        <div class="empty-sub">Upload images above to store them in Cloudflare R2 and MongoDB.</div>
+        <div class="empty-sub">Upload images above to store them in database and display on the Photo Gallery page.</div>
       </div>
 
     </div>
@@ -992,7 +821,7 @@
     <div class="modal-box">
       <div class="modal-icon"><i class="fas fa-trash-alt"></i></div>
       <div class="modal-title" id="modal-title">Delete Image(s)?</div>
-      <div class="modal-body" id="modal-body">Are you sure you want to delete the selected image(s)? This will remove them from Cloudflare R2 storage and database permanently.</div>
+      <div class="modal-body" id="modal-body">Are you sure you want to delete the selected image(s)? This will remove them permanently.</div>
       <div class="modal-actions">
         <button class="btn-cancel" id="modal-cancel">Cancel</button>
         <button class="btn-confirm-del" id="modal-confirm">Delete</button>
@@ -1006,54 +835,6 @@
     <span class="toast-text" id="toast-text"></span>
   </div>
 
-  <!-- ⚡ Quick Tag Mode Modal -->
-  <div class="qtm-overlay" id="qtm-overlay" role="dialog" aria-modal="true" aria-label="Quick Tag Mode">
-    <!-- Header -->
-    <div class="qtm-header">
-      <div class="qtm-progress" id="qtm-progress">Loading…</div>
-      <div class="qtm-title">⚡ Quick Tag Mode</div>
-      <button class="qtm-close" id="qtm-close" aria-label="Close Quick Tag Mode">✕ Close</button>
-    </div>
-
-    <!-- Image Stage -->
-    <div class="qtm-stage" id="qtm-stage">
-      <!-- Loading state -->
-      <div class="qtm-loading" id="qtm-loading">
-        <i class="fas fa-circle-notch fa-spin"></i>
-        <p>Loading uncategorized images…</p>
-      </div>
-
-      <!-- Done state -->
-      <div class="qtm-done" id="qtm-done" style="display:none;">
-        <div class="qtm-done-icon">🎉</div>
-        <div class="qtm-done-title">Saari images tag ho gayi!</div>
-        <div class="qtm-done-sub">All uncategorized images have been assigned a category.</div>
-        <button class="qtm-done-close" id="qtm-done-close">Close</button>
-      </div>
-
-      <!-- Active image viewer -->
-      <div class="qtm-viewer" id="qtm-viewer" style="display:none;">
-        <div class="qtm-img-wrap">
-          <img class="qtm-img" id="qtm-img" src="" alt="">
-        </div>
-        <div class="qtm-filename" id="qtm-filename"></div>
-        <div class="qtm-kbd-hint">Keyboard: <kbd>1</kbd>–<kbd>7</kbd> = categories &nbsp;|&nbsp; <kbd>S</kbd> = Skip</div>
-      </div>
-    </div>
-
-    <!-- Category Buttons -->
-    <div class="qtm-actions" id="qtm-actions" style="display:none;">
-      <button class="qtm-cat-btn" data-page="home"            data-key="1"><span class="qtm-key">1</span>Home</button>
-      <button class="qtm-cat-btn" data-page="flying-training" data-key="2"><span class="qtm-key">2</span>Flying Training</button>
-      <button class="qtm-cat-btn" data-page="ground-training" data-key="3"><span class="qtm-key">3</span>Ground Training</button>
-      <button class="qtm-cat-btn" data-page="gallery-alumni" data-key="4"><span class="qtm-key">4</span>Alumni Gallery</button>
-      <button class="qtm-cat-btn" data-page="gallery-student" data-key="5"><span class="qtm-key">5</span>Student Gallery</button>
-      <button class="qtm-cat-btn" data-page="gallery-media"  data-key="6"><span class="qtm-key">6</span>Media Gallery</button>
-      <button class="qtm-cat-btn" data-page="cabin-crew"     data-key="7"><span class="qtm-key">7</span>Cabin Crew</button>
-      <button class="qtm-cat-btn qtm-skip-btn" data-page="skip" data-key="S"><span class="qtm-key">S</span>Skip</button>
-    </div>
-  </div>
-
   <script>
     'use strict';
 
@@ -1065,21 +846,6 @@
     var isListView = false;
     var uploadedToday = 0;
     var deleteCallback = null;
-    var selectedFilterPage = 'all';
-
-    function getPageLabel(pageKey) {
-      var map = {
-        'home': 'Home',
-        'flying-training': 'Flying Training',
-        'ground-training': 'Ground Training',
-        'gallery-alumni': 'Alumni Gallery',
-        'gallery-student': 'Student Gallery',
-        'gallery-media': 'Media Gallery',
-        'cabin-crew': 'Cabin Crew',
-        'uncategorized': 'Uncategorized'
-      };
-      return map[pageKey] || pageKey || 'Uncategorized';
-    }
 
     // ─── Fetch Images from API ────────────────────────────────────────
     async function fetchImages(silent) {
@@ -1089,8 +855,7 @@
       }
 
       try {
-        var url = '/api/gallery/images' + (selectedFilterPage !== 'all' ? '?page=' + encodeURIComponent(selectedFilterPage) : '');
-        var res = await fetch(url);
+        var res = await fetch('/api/gallery/images');
         var data = await res.json();
 
         if (res.ok && data.success) {
@@ -1128,8 +893,7 @@
       var q = searchQuery.toLowerCase();
       return images.filter(function (img) {
         var name = (img.originalName || img.title || '').toLowerCase();
-        var page = (img.page || '').toLowerCase();
-        return name.includes(q) || page.includes(q);
+        return name.includes(q);
       });
     }
 
@@ -1170,12 +934,6 @@
         delBtn.classList.remove('visible');
       }
 
-      // Update bulk assign button state
-      var bulkBtn = document.getElementById('apply-bulk-btn');
-      var bulkCountSpan = document.getElementById('bulk-sel-count');
-      if (bulkCountSpan) bulkCountSpan.textContent = selectedIds.size;
-      if (bulkBtn) bulkBtn.disabled = selectedIds.size === 0;
-
       if (filtered.length === 0) {
         grid.innerHTML = '';
         empty.classList.add('show');
@@ -1192,20 +950,17 @@
         var displayName = img.originalName || img.title || 'Untitled Image';
         var dateFormatted = formatDate(img.createdAt);
         var sizeFormatted = formatBytes(img.fileSize);
-        var pageKey = img.page || 'uncategorized';
-        var pageLabel = getPageLabel(pageKey);
 
         if (isListView) {
           el.innerHTML =
             '<div class="img-thumb-wrap">' +
-              '<img class="gallery-img" src="' + img.filePath + '" alt="' + esc(displayName) + '" loading="lazy" onerror="this.src=\'/images/hero-home.jpg\'">' +
+              '<img class="gallery-img" src="' + img.filePath + '" alt="' + esc(displayName) + '" loading="lazy" onerror="this.src=\'/images/logo3.webp\'">' +
             '</div>' +
             '<div class="item-info">' +
               '<span class="item-name">' + esc(displayName) + '</span>' +
               '<div class="item-meta">' +
                 '<span><i class="far fa-calendar-alt"></i> ' + dateFormatted + '</span>' +
                 '<span><i class="fas fa-database"></i> ' + sizeFormatted + '</span>' +
-                '<span class="page-badge badge-' + esc(pageKey) + '">' + esc(pageLabel) + '</span>' +
               '</div>' +
             '</div>' +
             '<div class="list-actions">' +
@@ -1216,11 +971,10 @@
         } else {
           el.innerHTML =
             '<div class="img-thumb-wrap">' +
-              '<img class="gallery-img" src="' + img.filePath + '" alt="' + esc(displayName) + '" loading="lazy" onerror="this.src=\'/images/hero-home.jpg\'">' +
+              '<img class="gallery-img" src="' + img.filePath + '" alt="' + esc(displayName) + '" loading="lazy" onerror="this.src=\'/images/logo3.webp\'">' +
               '<div class="item-overlay">' +
                 '<div class="overlay-top">' +
                   '<div class="cb-select' + (isSelected ? ' checked' : '') + '" data-id="' + img.id + '" role="checkbox" aria-checked="' + isSelected + '" tabindex="0"><i class="fas fa-check"></i></div>' +
-                  '<span class="page-badge badge-' + esc(pageKey) + '">' + esc(pageLabel) + '</span>' +
                 '</div>' +
                 '<div class="overlay-bottom">' +
                   '<span class="item-filename" title="' + esc(displayName) + '">' + esc(displayName) + '</span>' +
@@ -1246,7 +1000,7 @@
         btn.addEventListener('click', function (e) { e.stopPropagation(); openLightbox(btn.dataset.id); });
       });
       grid.querySelectorAll('.delete-btn').forEach(function (btn) {
-        btn.addEventListener('click', function (e) { e.stopPropagation(); confirmDelete([btn.dataset.id], 'Delete Image?', 'Are you sure you want to permanently delete this image from Cloudflare R2 and the database?'); });
+        btn.addEventListener('click', function (e) { e.stopPropagation(); confirmDelete([btn.dataset.id], 'Delete Image?', 'Are you sure you want to permanently delete this image?'); });
       });
       grid.querySelectorAll('.gallery-item').forEach(function (item) {
         item.addEventListener('click', function () {
@@ -1275,55 +1029,6 @@
         filtered.forEach(function (img) { selectedIds.add(img.id); });
       }
       render();
-    });
-
-    // ─── Bulk Update Category ─────────────────────────────────────────
-    document.getElementById('apply-bulk-btn').addEventListener('click', async function () {
-      if (selectedIds.size === 0) return;
-      var targetPage = document.getElementById('bulk-page-select').value;
-      if (!targetPage) {
-        showToast('error', 'Please select a page category from the dropdown.');
-        return;
-      }
-
-      var ids = Array.from(selectedIds);
-      var pageLabel = getPageLabel(targetPage);
-      var btn = this;
-      btn.disabled = true;
-
-      try {
-        var res = await fetch('/api/gallery/bulk-update', {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ids: ids, page: targetPage }),
-        });
-
-        var data = await res.json();
-        if (res.ok && data.success) {
-          showToast('success', (data.modifiedCount || ids.length) + ' image(s) tagged as "' + pageLabel + '"');
-          // Update local objects
-          images.forEach(function (img) {
-            if (selectedIds.has(img.id)) {
-              img.page = targetPage;
-            }
-          });
-          selectedIds.clear();
-          render();
-        } else {
-          showToast('error', data.message || 'Failed to update image categories.');
-        }
-      } catch (err) {
-        console.error('Bulk update error:', err);
-        showToast('error', 'Network error updating image categories.');
-      } finally {
-        btn.disabled = selectedIds.size === 0;
-      }
-    });
-
-    // ─── Filter By Page ───────────────────────────────────────────────
-    document.getElementById('filter-page-select').addEventListener('change', function () {
-      selectedFilterPage = this.value;
-      fetchImages(false);
     });
 
     // ─── Delete Operations ────────────────────────────────────────────
@@ -1377,7 +1082,7 @@
     document.getElementById('delete-selected-btn').addEventListener('click', function () {
       if (selectedIds.size === 0) return;
       var ids = Array.from(selectedIds);
-      confirmDelete(ids, 'Delete ' + ids.length + ' image(s)?', 'Are you sure you want to permanently delete the ' + ids.length + ' selected image(s) from Cloudflare R2 and the database?');
+      confirmDelete(ids, 'Delete ' + ids.length + ' image(s)?', 'Are you sure you want to permanently delete the ' + ids.length + ' selected image(s)?');
     });
 
     // ─── Upload Handling ──────────────────────────────────────────────
@@ -1404,7 +1109,6 @@
         return;
       }
 
-      var uploadCategory = document.getElementById('upload-page-select')?.value || 'uncategorized';
       var progress = document.getElementById('upload-progress');
       var bar = document.getElementById('progress-bar');
       var pct = document.getElementById('progress-pct');
@@ -1412,10 +1116,9 @@
       progress.classList.add('show');
       bar.style.width = '30%';
       pct.textContent = '30%';
-      txt.textContent = 'Uploading ' + validFiles.length + ' file(s) to ' + getPageLabel(uploadCategory) + '...';
+      txt.textContent = 'Uploading ' + validFiles.length + ' file(s)...';
 
       var formData = new FormData();
-      formData.append('page', uploadCategory);
       validFiles.forEach(function (file) {
         formData.append('images', file);
       });
@@ -1555,189 +1258,6 @@
     setInterval(function () {
       fetchImages(true);
     }, 60000);
-
-    // ═══════════════════════════════════════════════════════════════════
-    // ⚡ QUICK TAG MODE
-    // ═══════════════════════════════════════════════════════════════════
-    var qtmQueue       = [];   // full list of uncategorized images
-    var qtmIndex       = 0;   // current position in queue
-    var qtmBusy        = false; // prevent double-clicks during API call
-    var qtmSkipSet     = new Set(); // IDs that were skipped this session
-
-    // — DOM refs —
-    var qtmOverlay  = document.getElementById('qtm-overlay');
-    var qtmLoading  = document.getElementById('qtm-loading');
-    var qtmDone     = document.getElementById('qtm-done');
-    var qtmViewer   = document.getElementById('qtm-viewer');
-    var qtmActions  = document.getElementById('qtm-actions');
-    var qtmImg      = document.getElementById('qtm-img');
-    var qtmFilename = document.getElementById('qtm-filename');
-    var qtmProgress = document.getElementById('qtm-progress');
-
-    // Open Quick Tag Mode
-    document.getElementById('quick-tag-btn').addEventListener('click', function () {
-      openQuickTagMode();
-    });
-
-    async function openQuickTagMode() {
-      // Show overlay
-      qtmOverlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-
-      // Reset state
-      qtmQueue = [];
-      qtmIndex = 0;
-      qtmSkipSet.clear();
-      qtmBusy = false;
-
-      // Show loading
-      qtmLoading.style.display = '';
-      qtmDone.style.display = 'none';
-      qtmViewer.style.display = 'none';
-      qtmActions.style.display = 'none';
-      qtmProgress.textContent = 'Loading\u2026';
-
-      // Fetch all uncategorized images
-      try {
-        var res = await fetch('/api/gallery/images?page=uncategorized');
-        var data = await res.json();
-        if (!res.ok || !data.success) throw new Error(data.message || 'Fetch failed');
-
-        qtmQueue = data.images || [];
-        if (qtmQueue.length === 0) {
-          showQtmDone();
-          return;
-        }
-        showQtmImage(0);
-      } catch (err) {
-        console.error('Quick Tag Mode fetch error:', err);
-        qtmLoading.style.display = 'none';
-        qtmProgress.textContent = 'Error loading';
-        showToast('error', 'Failed to load uncategorized images.');
-      }
-    }
-
-    function closeQuickTagMode() {
-      qtmOverlay.classList.remove('open');
-      document.body.style.overflow = '';
-      // Refresh main gallery in background to reflect any tag changes
-      fetchImages(true);
-    }
-
-    function updateProgress() {
-      // Show how many remain (unprocessed = total - current index, but skipped stay in queue)
-      var remaining = qtmQueue.length - qtmIndex;
-      qtmProgress.textContent = (qtmIndex + 1) + ' / ' + qtmQueue.length + ' remaining';
-    }
-
-    function showQtmImage(idx) {
-      if (idx >= qtmQueue.length) {
-        showQtmDone();
-        return;
-      }
-      qtmIndex = idx;
-
-      // Hide loading, show viewer + actions
-      qtmLoading.style.display = 'none';
-      qtmDone.style.display = 'none';
-      qtmViewer.style.display = 'flex';
-      qtmActions.style.display = 'flex';
-
-      var imgData = qtmQueue[idx];
-      updateProgress();
-
-      // Fade-out then swap src then fade-in
-      qtmImg.classList.add('fading');
-      setTimeout(function () {
-        qtmImg.src = imgData.filePath || '';
-        qtmImg.alt = imgData.originalName || imgData.title || '';
-        qtmFilename.textContent = imgData.originalName || imgData.title || 'Untitled';
-        qtmImg.classList.remove('fading');
-      }, 180);
-    }
-
-    function showQtmDone() {
-      qtmLoading.style.display = 'none';
-      qtmViewer.style.display = 'none';
-      qtmActions.style.display = 'none';
-      qtmDone.style.display = '';
-      qtmProgress.textContent = 'All Done!';
-    }
-
-    // Tag current image and advance
-    async function qtmTagCurrent(page) {
-      if (qtmBusy || qtmIndex >= qtmQueue.length) return;
-
-      var imgData = qtmQueue[qtmIndex];
-
-      if (page === 'skip') {
-        // Skip: mark as skipped and move to next
-        qtmSkipSet.add(imgData.id);
-        showQtmImage(qtmIndex + 1);
-        return;
-      }
-
-      qtmBusy = true;
-
-      try {
-        var res = await fetch('/api/gallery/bulk-update', {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ids: [imgData.id], page: page }),
-        });
-        var data = await res.json();
-        if (!res.ok || !data.success) throw new Error(data.message || 'Update failed');
-
-        // Remove from queue (processed) and show next
-        qtmQueue.splice(qtmIndex, 1);
-        // Don't increment index — next item slides into current position
-        var nextIdx = qtmIndex < qtmQueue.length ? qtmIndex : qtmQueue.length - 1;
-        if (qtmQueue.length === 0) {
-          showQtmDone();
-        } else {
-          showQtmImage(nextIdx);
-        }
-      } catch (err) {
-        console.error('Quick Tag update error:', err);
-        showToast('error', 'Failed to tag image. Try again.');
-      } finally {
-        qtmBusy = false;
-      }
-    }
-
-    // Bind category buttons
-    document.querySelectorAll('.qtm-cat-btn').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        qtmTagCurrent(btn.getAttribute('data-page'));
-      });
-    });
-
-    // Close buttons
-    document.getElementById('qtm-close').addEventListener('click', closeQuickTagMode);
-    document.getElementById('qtm-done-close').addEventListener('click', closeQuickTagMode);
-
-    // Keyboard shortcuts — only when Quick Tag Mode is open
-    document.addEventListener('keydown', function (e) {
-      if (!qtmOverlay.classList.contains('open')) return;
-
-      // Don't hijack if user is typing in an input somewhere
-      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-
-      var keyMap = { '1': 'home', '2': 'flying-training', '3': 'ground-training',
-                     '4': 'gallery-alumni', '5': 'gallery-student',
-                     '6': 'gallery-media', '7': 'cabin-crew' };
-
-      if (keyMap[e.key]) {
-        e.preventDefault();
-        qtmTagCurrent(keyMap[e.key]);
-      } else if (e.key === 's' || e.key === 'S') {
-        e.preventDefault();
-        qtmTagCurrent('skip');
-      } else if (e.key === 'Escape') {
-        e.preventDefault();
-        closeQuickTagMode();
-      }
-    });
   </script>
 
 </body>

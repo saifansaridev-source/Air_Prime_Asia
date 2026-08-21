@@ -1216,8 +1216,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     // ⚠️ Local testing ke liye ye URL. Live/production website pe
     // isse apne asli backend domain se replace karna hoga
-    // (jaise https://api.airprimeasia.in/api/gallery/images)
-    const GALLERY_API_URL = 'http://localhost:5000/api/gallery/images?page=gallery-alumni';
+    const GALLERY_API_URL = 'http://localhost:5000/api/gallery/images';
 
     fetch(GALLERY_API_URL)
       .then((res) => res.json())

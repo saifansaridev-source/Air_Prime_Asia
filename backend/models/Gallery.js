@@ -30,21 +30,6 @@ const gallerySchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    page: {
-      type: String,
-      enum: [
-        'home',
-        'flying-training',
-        'ground-training',
-        'gallery-alumni',
-        'gallery-student',
-        'gallery-media',
-        'cabin-crew',
-        'uncategorized',
-      ],
-      default: 'uncategorized',
-      trim: true,
-    },
     uploadedBy: {
       type: String,
       default: 'admin',

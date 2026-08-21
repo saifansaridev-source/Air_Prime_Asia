@@ -426,39 +426,6 @@
     });
   </script>
 
-  <!-- Dynamic Admin-Uploaded Gallery Images -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const GALLERY_API_URL = 'http://localhost:5000/api/gallery/images?page=gallery-student';
-
-      fetch(GALLERY_API_URL)
-        .then((res) => res.json())
-        .then((data) => {
-          if (!data.success || !data.images || data.images.length === 0) return;
-
-          const container = document.getElementById('gallery-container');
-          if (!container) return;
-
-          data.images.forEach((img) => {
-            const item = document.createElement('div');
-            item.className = 'gallery-item';
-            item.setAttribute('data-category', 'all');
-
-            item.innerHTML =
-              '<img src="' + img.filePath + '" loading="lazy" decoding="async" alt="' +
-              (img.title || 'Air Prime Asia Gallery Image') + '">' +
-              '<div class="gallery-overlay">' +
-                '<h4>' + (img.title || '') + '</h4>' +
-              '</div>';
-
-            container.appendChild(item);
-          });
-        })
-        .catch((err) => {
-          console.warn('Admin gallery images could not be loaded:', err);
-        });
-    });
-  </script>
 </body>
 
 </html>

@@ -65,36 +65,10 @@ const sanitizeFilename = (name) => {
     .replace(/-+/g, '-');
 };
 
-// Allowed page categories
-const ALLOWED_PAGES = [
-  'home',
-  'flying-training',
-  'ground-training',
-  'gallery-alumni',
-  'gallery-student',
-  'gallery-media',
-  'cabin-crew',
-  'uncategorized',
-];
-
 // ─── GET /api/gallery/images ───────────────────────────────────────────
 router.get('/images', async (req, res) => {
   try {
-    const filter = {};
-    if (req.query.page && req.query.page !== 'all') {
-      if (req.query.page === 'uncategorized') {
-        filter.$or = [
-          { page: 'uncategorized' },
-          { page: { $exists: false } },
-          { page: null },
-          { page: '' },
-        ];
-      } else {
-        filter.page = req.query.page;
-      }
-    }
-
-    const images = await Gallery.find(filter).sort({ createdAt: -1 });
+    const images = await Gallery.find({}).sort({ createdAt: -1 });
     return res.status(200).json({
       success: true,
       count: images.length,
@@ -106,7 +80,6 @@ router.get('/images', async (req, res) => {
         filePath: img.filePath,
         fileSize: img.fileSize,
         mimeType: img.mimeType,
-        page: img.page || 'uncategorized',
         uploadedBy: img.uploadedBy,
         createdAt: img.createdAt,
       })),
@@ -116,46 +89,6 @@ router.get('/images', async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Failed to retrieve gallery images.',
-      error: error.message,
-    });
-  }
-});
-
-// ─── PATCH /api/gallery/bulk-update ────────────────────────────────────
-router.patch('/bulk-update', authMiddleware, async (req, res) => {
-  try {
-    const { ids, page } = req.body;
-
-    if (!ids || !Array.isArray(ids) || ids.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please provide a non-empty array of image IDs.',
-      });
-    }
-
-    if (!page || !ALLOWED_PAGES.includes(page)) {
-      return res.status(400).json({
-        success: false,
-        message: `Invalid page category. Must be one of: ${ALLOWED_PAGES.join(', ')}`,
-      });
-    }
-
-    const result = await Gallery.updateMany(
-      { _id: { $in: ids } },
-      { $set: { page: page } }
-    );
-
-    return res.status(200).json({
-      success: true,
-      message: `${result.modifiedCount} image(s) updated successfully to "${page}".`,
-      modifiedCount: result.modifiedCount,
-      matchedCount: result.matchedCount,
-    });
-  } catch (error) {
-    console.error('[Gallery Bulk Update Error]', error);
-    return res.status(500).json({
-      success: false,
-      message: 'Failed to update images category.',
       error: error.message,
     });
   }
@@ -187,10 +120,6 @@ router.post(
 
       const uploadedResults = [];
       const adminUser = req.session?.admin?.username || 'admin';
-      const pageCategory =
-        req.body.page && ALLOWED_PAGES.includes(req.body.page)
-          ? req.body.page
-          : 'uncategorized';
 
       for (const file of files) {
         const cleanName = sanitizeFilename(file.originalname);
@@ -207,7 +136,6 @@ router.post(
           filePath: result.secure_url, // Cloudinary hosted image URL
           fileSize: file.size,
           mimeType: file.mimetype,
-          page: pageCategory,
           uploadedBy: adminUser,
         });
 
@@ -221,7 +149,6 @@ router.post(
           filePath: savedDoc.filePath,
           fileSize: savedDoc.fileSize,
           mimeType: savedDoc.mimeType,
-          page: savedDoc.page,
           createdAt: savedDoc.createdAt,
         });
       }
