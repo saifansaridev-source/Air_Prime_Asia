@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Gallery | Air Prime Asia</title>
+  <meta name="description"
+    content="Explore our student gallery showing real moments from ground classes, flying training, flight simulator training, and cadet life.">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+  <!-- Top Announcement Bar -->
+  <section class="announcement-bar">
+    <div class="container">
+      <div class="info-item">
+        <a href="tel:+919910338402"><i class="fas fa-phone-alt" style="color: var(--gold-primary);"></i> +91
+          9910338402</a>
+        <a href="mailto:info@airprimeasia.in"><i class="fas fa-envelope" style="color: var(--gold-primary);"></i>
+          info@airprimeasia.in</a>
+      </div>
+      <div>
+        <span class="badge-gold">Admissions Open</span>
+        <span>A320/B737 Type Rating Ground Class Starts Soon</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Header -->
+  <header class="header-nav" id="header-nav">
+    <div class="container">
+      <a href="index.html" class="logo-container">
+        <div class="logo-switcher">
+          <img src="images/logo3.webp" alt="Air Prime Asia Logo" class="logo-slide active" id="logo-slide-1">
+          <img src="images/logo.webp" alt="Air Glorietta Logo" class="logo-slide" id="logo-slide-2">
+        </div>
+      </a>
+
+      <nav class="nav-menu" id="nav-links">
+        <div class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="#" class="nav-link">About Us <i class="fas fa-chevron-down" style="font-size: 0.65rem;"></i></a>
+          <div class="dropdown-menu">
+            <a href="about-us.html" class="dropdown-link">About Us</a>
+            <a href="director-message.html" class="dropdown-link">Director Message</a>
+            <a href="our-team.html" class="dropdown-link">Our Team</a>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="#" class="nav-link">Program <i class="fas fa-chevron-down" style="font-size: 0.65rem;"></i></a>
+          <div class="dropdown-menu">
+            <a href="cadet-pilot.html" class="dropdown-link">Cadet Pilot Program</a>
+            <div class="dropdown-item-wrap">
+              <a href="#" class="dropdown-link sub-trigger">Pilot Training <i class="fas fa-chevron-right"
+                  style="font-size: 0.65rem; float: right; margin-top: 5px;"></i></a>
+              <div class="sub-dropdown-menu">
+                <a href="pilot-training.html" class="dropdown-link"
+                  style="color: var(--gold-primary); font-weight: bold;">Overview</a>
+                <a href="flying-training.html" class="dropdown-link">Flying Training</a>
+                <a href="simulator-training.html" class="dropdown-link">Simulator Training</a>
+                <a href="ground-training.html" class="dropdown-link">Ground Training</a>
+              </div>
+            </div>
+            <a href="type-rating.html" class="dropdown-link">Type Rating Training</a>
+            <a href="line-training.html" class="dropdown-link">Line Training Jr First Officer Program</a>
+            <a href="cabin-crew.html" class="dropdown-link">Cabin Crew Training</a>
+            <a href="university-programme.html" class="dropdown-link">University Programme</a>
+            <a href="bsc-aviation.html" class="dropdown-link">B.Sc.(Hons.) - Aviation</a>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="air-charter.html" class="nav-link">Air Charter</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="collaboration.html" class="nav-link">Our Collabration</a>
+        </div>
+
+        <div class="nav-item active">
+          <a href="#" class="nav-link">Gallery <i class="fas fa-chevron-down" style="font-size: 0.65rem;"></i></a>
+          <div class="dropdown-menu">
+            <a href="gallery-alumni.html" class="dropdown-link">Photo</a>
+            <a href="gallery-media.html" class="dropdown-link">Media</a>
+            <a href="gallery-student.html" class="dropdown-link">Alumini</a>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="#" class="nav-link">Contact <i class="fas fa-chevron-down" style="font-size: 0.65rem;"></i></a>
+          <div class="dropdown-menu">
+            <a href="contact-us.html" class="dropdown-link">Contact Us</a>
+            <a href="feedback.html" class="dropdown-link">Feedback / Grievance</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="call-widget">
+        <div class="call-icon"><i class="fas fa-phone-alt"></i></div>
+        <div class="call-info">
+          <span>Call Anytime</span>
+          <a href="tel:+919910338402">+91 99103 38402</a>
+        </div>
+      </div>
+
+      <div class="hamburger" id="hamburger-menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Banner -->
+  <section class="inner-banner student-banner" loading="lazy" decoding="async">
+    <div class="container">
+      <h1>Student Gallery</h1>
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a> / <a href="#">Gallery</a> / <span>Student</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Grid Section -->
+  <section class="section section-white">
+    <div class="container">
+
+      <!-- Interactive Filter Tabs -->
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">Alumini</button>
+        
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="gallery-grid" id="gallery-container">
+
+        <!-- Item 1: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Amit-Patel1.jpg" loading="lazy" decoding="async" alt="Cadets flight deck briefing session before departure">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 2: Classroom -->
+        <div class="gallery-item" data-category="classroom">
+          <img src="images/Anuvesh-gorepati1.jpg" loading="lazy" decoding="async" alt="Ground classes weather charts meteorology instruction check">
+          <div class="gallery-overlay">
+          
+          </div>
+        </div>
+
+        <!-- Item 3: Simulator -->
+        <div class="gallery-item" data-category="simulator">
+          <img src="images/Arsh1.jpg" loading="lazy" decoding="async"alt="Level-D full flight simulator session under supervision">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 4: Simulator -->
+        <div class="gallery-item" data-category="simulator">
+          <img src="images/capt.-Aditya-Sharma1.jpg" loading="lazy" decoding="async" alt="Cadets practicing checklist procedures inside cockpit trainer">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 5: Events -->
+        <div class="gallery-item" data-category="events">
+          <img src="images/Capt.-Gaurav-Malik1.jpg" loading="lazy" decoding="async" alt="Graduated cadet pilots wings ceremony wings pin celebration">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 6: Events -->
+        <div class="gallery-item" data-category="events">
+          <img src="images/capt.prateek.jpg"loading="lazy" decoding="async" alt="Group of graduated pilots throwing hats during ceremony">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 7: Ground -->
+        <div class="gallery-item" data-category="ground">
+          <img src="images/Capt.-Shrikant-Sharma1.jpg"loading="lazy" decoding="async" alt="Cabin crew team check flight grooming safety drills">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 8: Ground -->
+        <div class="gallery-item" data-category="ground">
+          <img src="images/Capt.-Sudeep-Dhir-1-1.jpg" loading="lazy" decoding="async"alt="Jet engine maintenance hangar practical workshop review">
+          <div class="gallery-overlay">
+        
+          </div>
+        </div>
+
+        <!-- Item 9: Events -->
+        <div class="gallery-item" data-category="events">
+          <img src="images/Capt.tejpratap.jpg"loading="lazy" decoding="async" alt="Airlines cabin crew hostesses grooming certification day check">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 10: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Capt-Priyanka.jpg" loading="lazy" decoding="async"alt="Capturing pilot trainee pre-flight inspection checklist walkaround check">
+          <div class="gallery-overlay">
+          
+          </div>
+        </div>
+
+        <!-- Item 11: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Kapil-Guchiya1-1.jpg" loading="lazy" decoding="async"alt="Pre flight walkaround inspection of train aircraft Cessna">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 12: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Kuljeet-Singh1.jpg"loading="lazy" decoding="async" alt="Solo flight briefing checklist preparation by student pilot">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 13: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Rohit-Sharma1.jpg"loading="lazy" decoding="async" alt="Student pilot checklist navigation logs setup">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 14: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Samar1.jpg" loading="lazy" decoding="async"alt="Instructor pointing navigation points to cadet pilot">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 15: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Shahil-Arora1.jpg" loading="lazy" decoding="async"alt="Student checking engine oil pre-flight check at airport">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 16: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Shahil-Arora3.jpg" loading="lazy" decoding="async"alt="Cadet pilot in headphones sitting in Cessna training aircraft">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 17: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Shakti-Yadav1.jpg" loading="lazy" decoding="async"alt="Instructor debriefing student pilot after landing checks">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 18: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Shashiraj-Pratap-Singh-Chauhan1.jpg" loading="lazy" decoding="async"alt="Cross country route calculations and briefing chart check">
+          <div class="gallery-overlay">
+           >
+          </div>
+        </div>
+
+        <!-- Item 19: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Tom-Briz1.jpg"loading="lazy" decoding="async" alt="Flight instruments review briefing by flight safety officer">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 20: Flying -->
+        <div class="gallery-item" data-category="flying">
+          <img src="images/Vikram1.jpg" loading="lazy" decoding="async"alt="Control tower communications briefing and airport layout study">
+          <div class="gallery-overlay">
+            
+          </div>
+        </div>
+
+        <!-- Item 21: Classroom -->
+        <div class="gallery-item" data-category="classroom">
+          <img src="images/Vineet-Soni1.jpg"loading="lazy" decoding="async" alt="Cadets attending ground school class for air law rules">
+          <div class="gallery-overlay">
+           
+          </div>
+        </div>
+
+        
+        
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Global Footer -->
+  <footer class="site-footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="index.html" class="footer-logo">
+            <img src="images/logo.webp" alt="Air Prime Asia Logo">
+          </a>
+          <p style="margin-top: 15px; font-size: 0.9rem;">
+            Shaping the future of aviation education in India with premium training solutions, cadet programs, and
+            specialized university pathways.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about-us.html">About Us</a></li>
+            <li><a href="collaboration.html">Our Collaboration</a></li>
+            <li><a href="gallery-alumni.html">Gallery</a></li>
+            <li><a href="contact-us.html">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>Admissions</h3>
+          <ul class="footer-links">
+            <li><a href="cadet-pilot.html">Cadet Program</a></li>
+            <li><a href="pilot-training.html">Pilot Training CPL</a></li>
+            <li><a href="type-rating.html">Type Rating Info</a></li>
+            <li><a href="line-training.html">Line Training Jr First Officer Program Paths</a></li>
+            <li><a href="cabin-crew.html">Cabin Crew Entry</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h3>Lead Capture</h3>
+          <p style="font-size: 0.85rem;">
+            Subscribe to receive details about upcoming recruitment drives, batch intakes, and class announcements.
+          </p>
+          <form class="footer-newsletter-form" id="newsletter-form">
+            <input type="email" placeholder="Your Email Address" required>
+            <button type="submit">Sign Up</button>
+          </form>
+          <div class="admin-login-link" style="margin-top: 16px; text-align: center;">
+            <a href="admin-panel.html" style="color: #94a3b8; font-size: 13px; text-decoration: none; opacity: 0.7;">
+              <i class="fas fa-lock" style="margin-right: 4px;"></i>Admin Login
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 Air Prime Asia Private Limited. All rights reserved. <br>
+          <span style="color: var(--gold-primary); font-style: italic;">"From Rural Roots to Global Wings"</span>
+        </p>
+        <div class="footer-social-links">
+          <a href="https://www.facebook.com/profile.php?id=61580469206603" target="_blank" aria-label="Facebook"><i
+              class="fab fa-facebook-f"></i></a>
+          <a href="https://api.whatsapp.com/send?phone=91%209910338402" target="_blank" aria-label="WhatsApp"><i
+              class="fab fa-whatsapp"></i></a>
+          <a href="mailto:info@airprimeasia.in" aria-label="Email"><i class="far fa-envelope"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll Top Button -->
+  <button class="scroll-top" id="btn-scroll-top" aria-label="Scroll to Top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <script src="js/main.js"></script>
+
+  <!-- Interactive Gallery Filter Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabs = document.querySelectorAll('.filter-tab');
+      const items = document.querySelectorAll('.gallery-item');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          const filter = tab.getAttribute('data-filter');
+
+          items.forEach(item => {
+            const cat = item.getAttribute('data-category');
+            if (filter === 'all' || cat === filter) {
+              item.style.display = 'block';
+              setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'scale(1)';
+              }, 50);
+            } else {
+              item.style.opacity = '0';
+              item.style.transform = 'scale(0.8)';
+              setTimeout(() => {
+                item.style.display = 'none';
+              }, 300);
+            }
+          });
+        });
+      });
+    });
+  </script>
+
+  <!-- Dynamic Admin-Uploaded Gallery Images -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const GALLERY_API_URL = 'http://localhost:5000/api/gallery/images?page=gallery-student';
+
+      fetch(GALLERY_API_URL)
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.success || !data.images || data.images.length === 0) return;
+
+          const container = document.getElementById('gallery-container');
+          if (!container) return;
+
+          data.images.forEach((img) => {
+            const item = document.createElement('div');
+            item.className = 'gallery-item';
+            item.setAttribute('data-category', 'all');
+
+            item.innerHTML =
+              '<img src="' + img.filePath + '" loading="lazy" decoding="async" alt="' +
+              (img.title || 'Air Prime Asia Gallery Image') + '">' +
+              '<div class="gallery-overlay">' +
+                '<h4>' + (img.title || '') + '</h4>' +
+              '</div>';
+
+            container.appendChild(item);
+          });
+        })
+        .catch((err) => {
+          console.warn('Admin gallery images could not be loaded:', err);
+        });
+    });
+  </script>
+</body>
+
+</html>

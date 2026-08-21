@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | Air Prime Asia</title>
+  <meta name="description" content="Secure admin login portal for Air Prime Asia administrators.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #0A1128;
+      --navy-mid:   #101E42;
+      --navy-light: #172B5E;
+      --gold:       #F4B324;
+      --gold-dark:  #D49B1A;
+      --white:      #FFFFFF;
+      --text-muted: #8A95AD;
+      --border:     rgba(255,255,255,0.08);
+      --error:      #EF4444;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .bg-wrap {
+      position: fixed; inset: 0; z-index: 0; overflow: hidden;
+    }
+    .bg-wrap::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 20% 50%, #172B5E 0%, transparent 60%),
+                  radial-gradient(ellipse 60% 80% at 80% 20%, #101E42 0%, transparent 55%),
+                  linear-gradient(135deg, #0A1128 0%, #050917 100%);
+    }
+    .bg-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(244,179,36,0.04) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(244,179,36,0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); pointer-events: none;
+    }
+    .orb-1 { width: 500px; height: 500px; top: -150px; left: -100px;
+              background: rgba(244,179,36,0.06); animation: floatOrb 8s ease-in-out infinite; }
+    .orb-2 { width: 350px; height: 350px; bottom: -100px; right: -50px;
+              background: rgba(23,43,94,0.6); animation: floatOrb 10s ease-in-out infinite reverse; }
+
+    @keyframes floatOrb {
+      0%,100% { transform: translateY(0) scale(1); }
+      50%      { transform: translateY(-30px) scale(1.05); }
+    }
+
+    .page {
+      position: relative; z-index: 1;
+      min-height: 100vh; display: flex;
+      align-items: center; justify-content: center;
+      padding: 24px;
+    }
+
+    .login-card {
+      width: 100%; max-width: 440px;
+      background: rgba(16, 30, 66, 0.7);
+      backdrop-filter: blur(24px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 40px;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.4),
+                  0 0 0 1px rgba(244,179,36,0.08);
+      animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(32px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .logo-area {
+      text-align: center; margin-bottom: 36px;
+    }
+    .logo-area img {
+      height: 56px; width: auto; margin-bottom: 16px;
+      filter: drop-shadow(0 4px 12px rgba(244,179,36,0.3));
+    }
+    .logo-area h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--white); letter-spacing: -0.02em;
+    }
+    .logo-area p {
+      font-size: 0.85rem; color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 28px;
+    }
+    .divider-line { flex: 1; height: 1px; background: var(--border); }
+    .divider-text { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
+
+    .form-group { margin-bottom: 20px; }
+
+    .form-label {
+      display: block; font-size: 0.82rem;
+      font-weight: 500; color: rgba(255,255,255,0.7);
+      margin-bottom: 8px; letter-spacing: 0.03em;
+    }
+
+    .input-wrap { position: relative; }
+
+    .input-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted); font-size: 0.9rem; pointer-events: none;
+      transition: color 0.2s;
+    }
+
+    .form-input {
+      width: 100%; padding: 13px 14px 13px 42px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; color: var(--white);
+      font-family: 'Inter', sans-serif; font-size: 0.95rem;
+      outline: none; transition: all 0.25s;
+    }
+    .form-input::placeholder { color: rgba(255,255,255,0.25); }
+    .form-input:focus {
+      border-color: var(--gold);
+      background: rgba(244,179,36,0.05);
+      box-shadow: 0 0 0 3px rgba(244,179,36,0.12);
+    }
+    .input-wrap:focus-within .input-icon { color: var(--gold); }
+
+    .pw-toggle {
+      position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; color: var(--text-muted);
+      cursor: pointer; font-size: 0.9rem; transition: color 0.2s; padding: 4px;
+    }
+    .pw-toggle:hover { color: var(--gold); }
+
+    .error-msg {
+      display: none; align-items: center; gap: 8px;
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 8px; padding: 10px 14px;
+      font-size: 0.85rem; color: #FCA5A5;
+      margin-bottom: 20px;
+    }
+    .error-msg.show { display: flex; animation: shake 0.4s ease; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-6px); }
+      40%      { transform: translateX(6px); }
+      60%      { transform: translateX(-4px); }
+      80%      { transform: translateX(4px); }
+    }
+
+    .btn-login {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      border: none; border-radius: 10px;
+      font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600;
+      color: var(--navy); cursor: pointer;
+      transition: all 0.25s; position: relative; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(244,179,36,0.3);
+      letter-spacing: 0.02em;
+    }
+    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(244,179,36,0.45); }
+    .btn-login:active { transform: translateY(0); }
+    .btn-login:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+    .btn-loader { display: none; }
+    .btn-login.loading .btn-text { display: none; }
+    .btn-login.loading .btn-loader { display: inline-block; }
+
+    .secure-note {
+      text-align: center; margin-top: 24px;
+      font-size: 0.78rem; color: rgba(255,255,255,0.3);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .secure-note i { color: var(--gold); opacity: 0.5; }
+
+    @media (max-width: 480px) {
+      .login-card { padding: 36px 24px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-wrap">
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+  </div>
+
+  <main class="page" role="main">
+    <div class="login-card" role="region" aria-label="Admin Login">
+
+      <div class="logo-area">
+        <img src="images/logo3.webp" alt="Air Prime Asia Logo">
+        <h1>Admin Portal</h1>
+        <p>Air Prime Asia &mdash; Restricted Access</p>
+      </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-text">Sign in to continue</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <div class="error-msg" id="error-msg" role="alert" aria-live="polite">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="error-text">Invalid username or password.</span>
+      </div>
+
+      <form id="login-form" novalidate autocomplete="off">
+
+        <div class="form-group">
+          <label class="form-label" for="admin-username">Username</label>
+          <div class="input-wrap">
+            <i class="fas fa-user input-icon" aria-hidden="true"></i>
+            <input
+              type="text"
+              id="admin-username"
+              class="form-input"
+              placeholder="Enter admin username"
+              autocomplete="username"
+              spellcheck="false"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="admin-password">Password</label>
+          <div class="input-wrap">
+            <i class="fas fa-lock input-icon" aria-hidden="true"></i>
+            <input
+              type="password"
+              id="admin-password"
+              class="form-input"
+              placeholder="Enter admin password"
+              autocomplete="current-password"
+              required
+            >
+            <button type="button" class="pw-toggle" id="pw-toggle" aria-label="Toggle password visibility">
+              <i class="fas fa-eye" id="pw-icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login" id="btn-login">
+          <span class="btn-text">Sign In &nbsp;<i class="fas fa-arrow-right"></i></span>
+          <span class="btn-loader"><i class="fas fa-spinner fa-spin"></i> &nbsp;Authenticating&hellip;</span>
+        </button>
+
+      </form>
+
+      <p class="secure-note">
+        <i class="fas fa-shield-alt"></i>
+        Secured admin access &mdash; authorised personnel only
+      </p>
+
+    </div>
+  </main>
+
+  <script>
+    // ─── Credentials ────────────────────────────────────────────
+    // For production: replace with proper server-side authentication
+    var ADMIN_CREDENTIALS = {
+      username: 'airprimeadmin',
+      password: 'AirPrime@2025!'
+    };
+    var SESSION_KEY = 'airprime_admin_auth';
+
+    // If already logged in, redirect straight to panel
+    if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+      window.location.replace('admin-panel.html');
+    }
+
+    // ─── Password toggle ─────────────────────────────────────────
+    document.getElementById('pw-toggle').addEventListener('click', function () {
+      var input = document.getElementById('admin-password');
+      var icon  = document.getElementById('pw-icon');
+      var hidden = input.type === 'password';
+      input.type = hidden ? 'text' : 'password';
+      icon.className = hidden ? 'fas fa-eye-slash' : 'fas fa-eye';
+    });
+
+    // ─── Form submit ─────────────────────────────────────────────
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var username = document.getElementById('admin-username').value.trim();
+      var password = document.getElementById('admin-password').value;
+      var btn      = document.getElementById('btn-login');
+      var errorEl  = document.getElementById('error-msg');
+
+      errorEl.classList.remove('show');
+      btn.classList.add('loading');
+      btn.disabled = true;
+
+      setTimeout(function () {
+        if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+          sessionStorage.setItem(SESSION_KEY, 'true');
+          window.location.replace('admin-panel.html');
+        } else {
+          btn.classList.remove('loading');
+          btn.disabled = false;
+          errorEl.classList.add('show');
+        }
+      }, 800);
+    });
+  </script>
+
+</body>
+</html>

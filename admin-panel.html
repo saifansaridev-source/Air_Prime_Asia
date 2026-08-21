@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Gallery | Air Prime Asia</title>
+  <script>
+    if (sessionStorage.getItem('airprime_admin_auth') !== 'true') {
+      window.location.replace('admin-login.html');
+    }
+  </script>
+  <meta name="description" content="Admin gallery management panel for Air Prime Asia.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:         #0A1128;
+      --navy-mid:     #101E42;
+      --navy-light:   #172B5E;
+      --navy-border:  #1E2D56;
+      --gold:         #F4B324;
+      --gold-dark:    #D49B1A;
+      --white:        #FFFFFF;
+      --bg-page:      #0D1530;
+      --bg-card:      rgba(16,30,66,0.8);
+      --text-primary: #E8ECF4;
+      --text-muted:   #8A95AD;
+      --text-dimmed:  #5A647B;
+      --border:       rgba(255,255,255,0.07);
+      --success:      #10B981;
+      --error:        #EF4444;
+      --sidebar-w:    240px;
+      --header-h:     64px;
+    }
+
+    html, body { height: 100%; font-family: 'Inter', sans-serif; background: var(--bg-page); color: var(--text-primary); }
+
+    /* ═══════════════════════════════════════════════
+       SIDEBAR
+    ═══════════════════════════════════════════════ */
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: var(--sidebar-w);
+      background: linear-gradient(180deg, var(--navy-mid) 0%, var(--navy) 100%);
+      border-right: 1px solid var(--navy-border);
+      display: flex; flex-direction: column;
+      z-index: 100; transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .sidebar-brand {
+      padding: 20px 20px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .sidebar-brand img { height: 40px; width: auto; }
+    .sidebar-brand-text { flex: 1; overflow: hidden; }
+    .sidebar-brand-text strong {
+      display: block; font-family: 'Outfit', sans-serif;
+      font-size: 0.92rem; font-weight: 700; color: var(--white);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .sidebar-brand-text span {
+      font-size: 0.7rem; color: var(--gold); font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+
+    .sidebar-nav {
+      flex: 1; padding: 16px 12px; overflow-y: auto;
+    }
+
+    .nav-section-label {
+      font-size: 0.65rem; font-weight: 600; color: var(--text-dimmed);
+      text-transform: uppercase; letter-spacing: 0.1em;
+      padding: 8px 8px 6px; margin-bottom: 4px;
+    }
+
+    .nav-link {
+      display: flex; align-items: center; gap: 12px;
+      padding: 11px 12px; border-radius: 10px;
+      font-size: 0.9rem; font-weight: 500;
+      color: var(--text-muted); text-decoration: none;
+      transition: all 0.2s; cursor: pointer; border: none;
+      background: none; width: 100%; text-align: left;
+    }
+    .nav-link i { font-size: 1rem; width: 20px; text-align: center; }
+    .nav-link:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+    .nav-link.active {
+      color: var(--gold); background: rgba(244,179,36,0.1);
+      font-weight: 600;
+    }
+    .nav-link.active i { color: var(--gold); }
+
+    .sidebar-footer {
+      padding: 16px 12px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-logout {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 10px;
+      font-size: 0.87rem; font-weight: 500;
+      color: var(--text-muted); background: none; border: none;
+      cursor: pointer; width: 100%; transition: all 0.2s;
+    }
+    .btn-logout:hover { color: #FCA5A5; background: rgba(239,68,68,0.08); }
+
+    /* ═══════════════════════════════════════════════
+       TOP HEADER
+    ═══════════════════════════════════════════════ */
+    .topbar {
+      position: fixed; top: 0;
+      left: var(--sidebar-w); right: 0;
+      height: var(--header-h);
+      background: rgba(13,21,48,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center;
+      padding: 0 28px; gap: 16px; z-index: 90;
+    }
+    .hamburger-btn {
+      display: none; background: none; border: none;
+      color: var(--text-primary); font-size: 1.2rem;
+      cursor: pointer; padding: 4px;
+    }
+    .topbar-title {
+      flex: 1; font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem; font-weight: 700;
+    }
+    .topbar-title span { color: var(--gold); }
+
+    .topbar-badge {
+      display: flex; align-items: center; gap: 6px;
+      background: rgba(244,179,36,0.1); border: 1px solid rgba(244,179,36,0.2);
+      padding: 5px 12px; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 600; color: var(--gold);
+    }
+    .topbar-badge i { font-size: 0.65rem; }
+
+    /* ═══════════════════════════════════════════════
+       MAIN CONTENT
+    ═══════════════════════════════════════════════ */
+    .main-content {
+      margin-left: var(--sidebar-w);
+      padding-top: var(--header-h);
+      min-height: 100vh;
+    }
+
+    .content-area {
+      padding: 32px 28px;
+      max-width: 1400px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       STATS ROW
+    ═══════════════════════════════════════════════ */
+    .stats-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 16px; margin-bottom: 28px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px; padding: 20px 22px;
+      display: flex; align-items: center; gap: 16px;
+      backdrop-filter: blur(8px);
+    }
+    .stat-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .stat-icon.gold { background: rgba(244,179,36,0.15); color: var(--gold); }
+    .stat-icon.blue { background: rgba(59,130,246,0.15); color: #60A5FA; }
+    .stat-icon.green { background: rgba(16,185,129,0.15); color: #34D399; }
+    .stat-info strong {
+      display: block; font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem; font-weight: 700; color: var(--white); line-height: 1;
+    }
+    .stat-info span { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ═══════════════════════════════════════════════
+       UPLOAD ZONE
+    ═══════════════════════════════════════════════ */
+    .section-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif; font-size: 1.1rem;
+      font-weight: 700; color: var(--white); display: flex; align-items: center; gap: 8px;
+    }
+    .section-title i { color: var(--gold); font-size: 1rem; }
+
+    .upload-zone {
+      border: 2px dashed rgba(244,179,36,0.3);
+      border-radius: 16px; padding: 36px 24px;
+      text-align: center; cursor: pointer;
+      background: rgba(244,179,36,0.02);
+      transition: all 0.25s; margin-bottom: 28px;
+      position: relative; overflow: hidden;
+    }
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--gold);
+      background: rgba(244,179,36,0.06);
+      transform: scale(1.005);
+    }
+    .upload-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%;
+    }
+    .upload-icon { font-size: 2.5rem; color: var(--gold); opacity: 0.7; margin-bottom: 12px; }
+    .upload-title { font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+    .upload-sub { font-size: 0.84rem; color: var(--text-muted); }
+    .upload-types {
+      margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;
+    }
+    .type-badge {
+      padding: 3px 10px; border-radius: 20px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      font-size: 0.72rem; color: var(--text-dimmed); font-weight: 500;
+    }
+
+    /* ═══════════════════════════════════════════════
+       PROGRESS & TOAST
+    ═══════════════════════════════════════════════ */
+    .upload-progress {
+      display: none; margin-bottom: 20px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px 20px;
+    }
+    .upload-progress.show { display: block; }
+    .progress-label { font-size: 0.84rem; color: var(--text-muted); margin-bottom: 10px; display: flex; justify-content: space-between; }
+    .progress-bar-wrap { height: 6px; background: rgba(255,255,255,0.06); border-radius: 99px; overflow: hidden; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-dark)); border-radius: 99px; width: 0%; transition: width 0.15s; }
+
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      min-width: 280px; max-width: 360px;
+      background: var(--navy-mid); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 18px;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+      z-index: 999; transform: translateY(120%); opacity: 0;
+      transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      pointer-events: none;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .toast-icon.success { color: var(--success); }
+    .toast-icon.error   { color: var(--error); }
+    .toast-text { font-size: 0.87rem; color: var(--text-primary); }
+
+    /* ═══════════════════════════════════════════════
+       GALLERY TOOLBAR
+    ═══════════════════════════════════════════════ */
+    .gallery-toolbar {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .search-wrap { position: relative; flex: 1; min-width: 200px; max-width: 360px; }
+    .search-wrap i { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--text-dimmed); font-size: 0.85rem; }
+    .search-input {
+      width: 100%; padding: 9px 14px 9px 38px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 10px; color: var(--white);
+      font-size: 0.88rem; font-family: 'Inter', sans-serif;
+      outline: none; transition: all 0.2s;
+    }
+    .search-input::placeholder { color: var(--text-dimmed); }
+    .search-input:focus { border-color: rgba(244,179,36,0.4); background: rgba(244,179,36,0.03); }
+
+    .view-toggle {
+      display: flex; gap: 4px; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 10px; padding: 4px;
+    }
+    .view-btn {
+      width: 34px; height: 34px; border-radius: 7px;
+      background: none; border: none; color: var(--text-dimmed);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; transition: all 0.2s;
+    }
+    .view-btn.active { background: rgba(244,179,36,0.15); color: var(--gold); }
+    .view-btn:hover:not(.active) { color: var(--text-primary); background: rgba(255,255,255,0.04); }
+
+    .select-all-btn, .delete-selected-btn {
+      padding: 8px 16px; border-radius: 10px;
+      font-size: 0.85rem; font-weight: 500; cursor: pointer;
+      transition: all 0.2s; border: 1px solid var(--border);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .select-all-btn { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+    .select-all-btn:hover { background: rgba(255,255,255,0.09); color: var(--white); }
+    .delete-selected-btn {
+      background: rgba(239,68,68,0.1); color: #FCA5A5;
+      border-color: rgba(239,68,68,0.2); display: none;
+    }
+    .delete-selected-btn:hover { background: rgba(239,68,68,0.2); }
+    .delete-selected-btn.visible { display: flex; }
+
+    /* ═══════════════════════════════════════════════
+       GALLERY GRID
+    ═══════════════════════════════════════════════ */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    .gallery-grid.list-view {
+      grid-template-columns: 1fr; gap: 8px;
+    }
+
+    .gallery-item {
+      position: relative; border-radius: 12px; overflow: hidden;
+      background: rgba(16,30,66,0.6); border: 1px solid var(--border);
+      cursor: pointer; transition: all 0.25s; group: true;
+    }
+    .gallery-item:hover { border-color: rgba(244,179,36,0.3); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
+    .gallery-item.selected { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(244,179,36,0.25); }
+
+    .gallery-grid:not(.list-view) .gallery-item {
+      aspect-ratio: 1;
+    }
+
+    .gallery-img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.35s;
+    }
+    .gallery-grid:not(.list-view) .gallery-item:hover .gallery-img { transform: scale(1.06); }
+
+    /* list view img */
+    .gallery-grid.list-view .gallery-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 10px 14px; aspect-ratio: unset;
+    }
+    .gallery-grid.list-view .img-thumb-wrap {
+      width: 56px; height: 56px; border-radius: 8px; overflow: hidden; flex-shrink: 0;
+    }
+    .gallery-grid.list-view .gallery-img { width: 56px; height: 56px; border-radius: 8px; }
+    .gallery-grid.list-view .item-overlay { display: none; }
+    .gallery-grid.list-view .item-name { display: block; font-size: 0.85rem; color: var(--white); font-weight: 500; }
+    .gallery-grid.list-view .item-meta { display: flex; gap: 16px; margin-top: 2px; }
+    .gallery-grid.list-view .item-info { flex: 1; }
+    .gallery-grid.list-view .list-actions { display: flex; gap: 6px; }
+
+    .item-name { display: none; }
+    .item-info { display: none; }
+    .list-actions { display: none; }
+
+    .img-thumb-wrap { position: relative; width: 100%; height: 100%; overflow: hidden; }
+
+    /* overlay on grid view */
+    .item-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 50%);
+      opacity: 0; transition: opacity 0.25s;
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 10px;
+    }
+    .gallery-item:hover .item-overlay { opacity: 1; }
+
+    .overlay-top { display: flex; justify-content: flex-end; }
+    .overlay-bottom { display: flex; align-items: center; justify-content: space-between; }
+
+    .cb-select {
+      width: 20px; height: 20px; border-radius: 5px;
+      border: 2px solid rgba(255,255,255,0.7);
+      background: rgba(0,0,0,0.4); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s; flex-shrink: 0;
+    }
+    .gallery-item.selected .cb-select,
+    .cb-select.checked {
+      background: var(--gold); border-color: var(--gold);
+    }
+    .cb-select i { font-size: 0.65rem; color: var(--navy); display: none; }
+    .gallery-item.selected .cb-select i,
+    .cb-select.checked i { display: block; }
+
+    .item-filename {
+      font-size: 0.72rem; color: rgba(255,255,255,0.8);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      max-width: 110px;
+    }
+
+    .overlay-actions { display: flex; gap: 6px; }
+    .action-btn {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--white); cursor: pointer; font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .action-btn:hover { background: rgba(255,255,255,0.25); }
+    .action-btn.del { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.2); color: #FCA5A5; }
+    .action-btn.del:hover { background: rgba(239,68,68,0.35); }
+
+    /* list view inline action btns */
+    .list-action-btn {
+      width: 32px; height: 32px; border-radius: 8px;
+      border: 1px solid var(--border); background: rgba(255,255,255,0.04);
+      color: var(--text-muted); cursor: pointer; font-size: 0.82rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .list-action-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.15); }
+    .list-action-btn.del { color: #FCA5A5; border-color: rgba(239,68,68,0.2); }
+    .list-action-btn.del:hover { background: rgba(239,68,68,0.12); }
+
+    /* ═══════════════════════════════════════════════
+       EMPTY STATE
+    ═══════════════════════════════════════════════ */
+    .empty-state {
+      text-align: center; padding: 60px 24px; display: none;
+    }
+    .empty-state.show { display: block; }
+    .empty-icon { font-size: 3rem; color: var(--text-dimmed); margin-bottom: 16px; }
+    .empty-title { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+    .empty-sub { font-size: 0.85rem; color: var(--text-dimmed); }
+
+    /* ═══════════════════════════════════════════════
+       LIGHTBOX
+    ═══════════════════════════════════════════════ */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.92); backdrop-filter: blur(10px);
+      display: none; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .lightbox.open { display: flex; animation: fadeIn 0.2s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .lb-inner { position: relative; max-width: 90vw; max-height: 88vh; }
+    .lb-img { max-width: 100%; max-height: 85vh; border-radius: 12px; object-fit: contain; box-shadow: 0 24px 80px rgba(0,0,0,0.8); }
+    .lb-close {
+      position: fixed; top: 20px; right: 24px;
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.12);
+      color: var(--white); cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .lb-close:hover { background: rgba(239,68,68,0.25); color: #FCA5A5; }
+    .lb-caption {
+      margin-top: 12px; text-align: center;
+      font-size: 0.82rem; color: rgba(255,255,255,0.5);
+    }
+    .lb-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      color: var(--white); cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .lb-nav:hover { background: rgba(244,179,36,0.2); border-color: rgba(244,179,36,0.4); }
+    .lb-prev { left: 16px; }
+    .lb-next { right: 16px; }
+
+    /* ═══════════════════════════════════════════════
+       CONFIRM MODAL
+    ═══════════════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 8000;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+      display: none; align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+    .modal-box {
+      background: var(--navy-mid); border: 1px solid var(--navy-border);
+      border-radius: 16px; padding: 32px 28px; width: 100%; max-width: 380px;
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-icon { font-size: 2rem; color: var(--error); margin-bottom: 12px; }
+    .modal-title { font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+    .modal-body { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
+    .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
+    .btn-cancel { padding: 9px 20px; border-radius: 9px; background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text-muted); font-size: 0.88rem; cursor: pointer; transition: all 0.2s; }
+    .btn-cancel:hover { color: var(--white); background: rgba(255,255,255,0.1); }
+    .btn-confirm-del { padding: 9px 20px; border-radius: 9px; background: var(--error); border: none; color: var(--white); font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+    .btn-confirm-del:hover { background: #DC2626; }
+
+    /* ═══════════════════════════════════════════════
+       SIDEBAR OVERLAY (mobile)
+    ═══════════════════════════════════════════════ */
+    .sidebar-overlay {
+      display: none; position: fixed; inset: 0; z-index: 99;
+      background: rgba(0,0,0,0.5);
+    }
+    .sidebar-overlay.show { display: block; }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-content { margin-left: 0; }
+      .topbar { left: 0; }
+      .hamburger-btn { display: block; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .content-area { padding: 20px 16px; }
+    }
+    @media (max-width: 480px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .gallery-toolbar { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Admin sidebar">
+    <div class="sidebar-brand">
+      <img src="images/logo3.webp" alt="Air Prime Asia">
+      <div class="sidebar-brand-text">
+        <strong>Air Prime Asia</strong>
+        <span>Admin Panel</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Management</div>
+      <a class="nav-link active" id="nav-gallery" href="#" role="menuitem" aria-current="page">
+        <i class="fas fa-images"></i>
+        Gallery
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-logout" id="btn-logout" aria-label="Logout">
+        <i class="fas fa-sign-out-alt"></i>
+        Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- Sidebar mobile overlay -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+  <!-- Top Bar -->
+  <header class="topbar" role="banner">
+    <button class="hamburger-btn" id="hamburger-btn" aria-label="Toggle sidebar" aria-expanded="false">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="topbar-title">Gallery <span>Management</span></div>
+    <div class="topbar-badge">
+      <i class="fas fa-circle"></i>
+      Admin
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content" id="main-content" role="main">
+    <div class="content-area">
+
+      <!-- Stats -->
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon gold"><i class="fas fa-images"></i></div>
+          <div class="stat-info">
+            <strong id="stat-total">0</strong>
+            <span>Total Images</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fas fa-check-square"></i></div>
+          <div class="stat-info">
+            <strong id="stat-selected">0</strong>
+            <span>Selected</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="fas fa-cloud-upload-alt"></i></div>
+          <div class="stat-info">
+            <strong id="stat-uploaded">0</strong>
+            <span>Uploaded Today</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Upload Section -->
+      <div class="section-header">
+        <div class="section-title"><i class="fas fa-cloud-upload-alt"></i> Upload Images</div>
+      </div>
+
+      <div class="upload-zone" id="upload-zone" role="button" tabindex="0" aria-label="Upload images area">
+        <input type="file" id="file-input" multiple accept="image/*" aria-label="Select images to upload">
+        <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+        <div class="upload-title">Drag &amp; drop images here</div>
+        <div class="upload-sub">or click to browse files</div>
+        <div class="upload-types">
+          <span class="type-badge">JPG</span>
+          <span class="type-badge">PNG</span>
+          <span class="type-badge">WEBP</span>
+          <span class="type-badge">GIF</span>
+          <span class="type-badge">SVG</span>
+        </div>
+      </div>
+
+      <!-- Upload Progress -->
+      <div class="upload-progress" id="upload-progress">
+        <div class="progress-label">
+          <span id="progress-text">Uploading…</span>
+          <span id="progress-pct">0%</span>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+      </div>
+
+      <!-- Gallery Section -->
+      <div class="section-header">
+        <div class="section-title"><i class="fas fa-th"></i> Gallery Images</div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="gallery-toolbar">
+        <div class="search-wrap">
+          <i class="fas fa-search"></i>
+          <input type="text" class="search-input" id="search-input" placeholder="Search by filename…" aria-label="Search images">
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn active" id="grid-btn" title="Grid view" aria-label="Grid view">
+            <i class="fas fa-th"></i>
+          </button>
+          <button class="view-btn" id="list-btn" title="List view" aria-label="List view">
+            <i class="fas fa-list"></i>
+          </button>
+        </div>
+        <button class="select-all-btn" id="select-all-btn">
+          <i class="fas fa-check-square"></i> Select All
+        </button>
+        <button class="delete-selected-btn" id="delete-selected-btn">
+          <i class="fas fa-trash-alt"></i> Delete Selected (<span id="sel-count">0</span>)
+        </button>
+      </div>
+
+      <!-- Grid -->
+      <div class="gallery-grid" id="gallery-grid" aria-label="Image gallery"></div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon"><i class="fas fa-images"></i></div>
+        <div class="empty-title">No images in gallery</div>
+        <div class="empty-sub">Upload images above to get started.</div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
+    <button class="lb-close" id="lb-close" aria-label="Close preview"><i class="fas fa-times"></i></button>
+    <button class="lb-nav lb-prev" id="lb-prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+    <div class="lb-inner">
+      <img class="lb-img" id="lb-img" src="" alt="Preview">
+      <div class="lb-caption" id="lb-caption"></div>
+    </div>
+    <button class="lb-nav lb-next" id="lb-next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+  </div>
+
+  <!-- Confirm Delete Modal -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box">
+      <div class="modal-icon"><i class="fas fa-trash-alt"></i></div>
+      <div class="modal-title" id="modal-title">Delete Image(s)?</div>
+      <div class="modal-body" id="modal-body">Are you sure you want to delete the selected image(s)? This action cannot be undone.</div>
+      <div class="modal-actions">
+        <button class="btn-cancel" id="modal-cancel">Cancel</button>
+        <button class="btn-confirm-del" id="modal-confirm">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <i class="toast-icon" id="toast-icon"></i>
+    <span class="toast-text" id="toast-text"></span>
+  </div>
+
+  <script>
+    'use strict';
+
+    // ─── Auth guard ────────────────────────────────────────────────────
+    var SESSION_KEY = 'airprime_admin_auth';
+    if (sessionStorage.getItem(SESSION_KEY) !== 'true') {
+      window.location.replace('admin-login.html');
+    }
+
+    // ─── State ────────────────────────────────────────────────────────
+    var images = [];          // [{id, name, src, uploadDate}]
+    var selectedIds = new Set();
+    var currentLbIndex = -1;
+    var searchQuery = '';
+    var isListView = false;
+    var uploadedToday = 0;
+    var deleteCallback = null;
+
+    var STORAGE_KEY = 'airprime_gallery_images';
+
+    // ─── Load from localStorage ────────────────────────────────────────
+    function loadImages() {
+      try {
+        var saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) { images = JSON.parse(saved); }
+      } catch (e) { images = []; }
+    }
+
+    function saveImages() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(images)); } catch(e) {}
+    }
+
+    // ─── Render ────────────────────────────────────────────────────────
+    function getFilteredImages() {
+      if (!searchQuery) return images;
+      var q = searchQuery.toLowerCase();
+      return images.filter(function(img) { return img.name.toLowerCase().includes(q); });
+    }
+
+    function render() {
+      var filtered = getFilteredImages();
+      var grid = document.getElementById('gallery-grid');
+      var empty = document.getElementById('empty-state');
+
+      // stats
+      document.getElementById('stat-total').textContent = images.length;
+      document.getElementById('stat-selected').textContent = selectedIds.size;
+      document.getElementById('stat-uploaded').textContent = uploadedToday;
+
+      // toggle delete-selected button
+      var delBtn = document.getElementById('delete-selected-btn');
+      document.getElementById('sel-count').textContent = selectedIds.size;
+      if (selectedIds.size > 0) { delBtn.classList.add('visible'); } else { delBtn.classList.remove('visible'); }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.add('show');
+        return;
+      }
+      empty.classList.remove('show');
+
+      grid.innerHTML = '';
+      filtered.forEach(function(img, idx) {
+        var isSelected = selectedIds.has(img.id);
+        var el = document.createElement('div');
+        el.className = 'gallery-item' + (isSelected ? ' selected' : '');
+        el.dataset.id = img.id;
+
+        if (isListView) {
+          el.innerHTML =
+            '<div class="img-thumb-wrap"><img class="gallery-img" src="' + img.src + '" alt="' + esc(img.name) + '" loading="lazy"></div>' +
+            '<div class="item-info">' +
+              '<span class="item-name">' + esc(img.name) + '</span>' +
+              '<div class="item-meta">' +
+                '<span style="font-size:0.75rem;color:var(--text-dimmed)">' + img.uploadDate + '</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="list-actions">' +
+              '<button class="list-action-btn preview-btn" data-id="' + img.id + '" title="Preview" aria-label="Preview ' + esc(img.name) + '"><i class="fas fa-eye"></i></button>' +
+              '<button class="list-action-btn del delete-btn" data-id="' + img.id + '" title="Delete" aria-label="Delete ' + esc(img.name) + '"><i class="fas fa-trash"></i></button>' +
+            '</div>';
+        } else {
+          el.innerHTML =
+            '<div class="img-thumb-wrap">' +
+              '<img class="gallery-img" src="' + img.src + '" alt="' + esc(img.name) + '" loading="lazy">' +
+              '<div class="item-overlay">' +
+                '<div class="overlay-top">' +
+                  '<div class="cb-select' + (isSelected ? ' checked' : '') + '" data-id="' + img.id + '" role="checkbox" aria-checked="' + isSelected + '" tabindex="0"><i class="fas fa-check"></i></div>' +
+                '</div>' +
+                '<div class="overlay-bottom">' +
+                  '<span class="item-filename">' + esc(img.name) + '</span>' +
+                  '<div class="overlay-actions">' +
+                    '<button class="action-btn preview-btn" data-id="' + img.id + '" title="Preview" aria-label="Preview ' + esc(img.name) + '"><i class="fas fa-eye"></i></button>' +
+                    '<button class="action-btn del delete-btn" data-id="' + img.id + '" title="Delete" aria-label="Delete ' + esc(img.name) + '"><i class="fas fa-trash"></i></button>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+        }
+
+        grid.appendChild(el);
+      });
+
+      // bind events
+      grid.querySelectorAll('.cb-select').forEach(function(cb) {
+        cb.addEventListener('click', function(e) { e.stopPropagation(); toggleSelect(cb.dataset.id); });
+        cb.addEventListener('keydown', function(e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleSelect(cb.dataset.id); } });
+      });
+      grid.querySelectorAll('.preview-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) { e.stopPropagation(); openLightbox(btn.dataset.id); });
+      });
+      grid.querySelectorAll('.delete-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) { e.stopPropagation(); confirmDelete([btn.dataset.id], 'Delete this image?', 'This action cannot be undone.'); });
+      });
+      grid.querySelectorAll('.gallery-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+          if (isListView) { openLightbox(item.dataset.id); }
+          else { toggleSelect(item.dataset.id); }
+        });
+      });
+    }
+
+    function esc(str) {
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ─── Select ───────────────────────────────────────────────────────
+    function toggleSelect(id) {
+      if (selectedIds.has(id)) { selectedIds.delete(id); } else { selectedIds.add(id); }
+      render();
+    }
+
+    document.getElementById('select-all-btn').addEventListener('click', function() {
+      var filtered = getFilteredImages();
+      if (selectedIds.size === filtered.length && filtered.length > 0) {
+        selectedIds.clear();
+      } else {
+        filtered.forEach(function(img) { selectedIds.add(img.id); });
+      }
+      render();
+    });
+
+    // ─── Delete ───────────────────────────────────────────────────────
+    function confirmDelete(ids, title, body) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-body').textContent = body;
+      document.getElementById('modal-overlay').classList.add('open');
+      deleteCallback = function() { doDelete(ids); };
+    }
+
+    document.getElementById('modal-cancel').addEventListener('click', closeModal);
+    document.getElementById('modal-overlay').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+    document.getElementById('modal-confirm').addEventListener('click', function() {
+      closeModal();
+      if (deleteCallback) { deleteCallback(); deleteCallback = null; }
+    });
+
+    function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
+
+    function doDelete(ids) {
+      var count = ids.length;
+      images = images.filter(function(img) { return !ids.includes(img.id); });
+      ids.forEach(function(id) { selectedIds.delete(id); });
+      saveImages();
+      render();
+      showToast('success', count + ' image' + (count > 1 ? 's' : '') + ' deleted.');
+    }
+
+    document.getElementById('delete-selected-btn').addEventListener('click', function() {
+      if (selectedIds.size === 0) return;
+      var ids = Array.from(selectedIds);
+      confirmDelete(ids, 'Delete ' + ids.length + ' image(s)?', 'Are you sure you want to delete the ' + ids.length + ' selected image(s)? This action cannot be undone.');
+    });
+
+    // ─── Upload ───────────────────────────────────────────────────────
+    var fileInput = document.getElementById('file-input');
+    var uploadZone = document.getElementById('upload-zone');
+
+    uploadZone.addEventListener('dragover', function(e) { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+    uploadZone.addEventListener('dragleave', function() { uploadZone.classList.remove('drag-over'); });
+    uploadZone.addEventListener('drop', function(e) {
+      e.preventDefault(); uploadZone.classList.remove('drag-over');
+      processFiles(e.dataTransfer.files);
+    });
+    uploadZone.addEventListener('keydown', function(e) {
+      if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); fileInput.click(); }
+    });
+
+    fileInput.addEventListener('change', function() { processFiles(this.files); });
+
+    function processFiles(files) {
+      if (!files || files.length === 0) return;
+      var arr = Array.from(files).filter(function(f) { return f.type.startsWith('image/'); });
+      if (arr.length === 0) { showToast('error', 'Please select valid image files.'); return; }
+
+      var progress = document.getElementById('upload-progress');
+      var bar = document.getElementById('progress-bar');
+      var pct = document.getElementById('progress-pct');
+      var txt = document.getElementById('progress-text');
+      progress.classList.add('show');
+      bar.style.width = '0%';
+
+      var processed = 0;
+      var today = new Date().toLocaleDateString('en-IN', {day:'2-digit', month:'short', year:'numeric'});
+
+      arr.forEach(function(file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var id = 'img_' + Date.now() + '_' + Math.random().toString(36).substr(2,6);
+          images.unshift({ id: id, name: file.name, src: e.target.result, uploadDate: today });
+          uploadedToday++;
+          processed++;
+          var p = Math.round((processed / arr.length) * 100);
+          bar.style.width = p + '%';
+          pct.textContent = p + '%';
+          txt.textContent = 'Processing ' + processed + ' of ' + arr.length + '…';
+
+          if (processed === arr.length) {
+            saveImages();
+            render();
+            setTimeout(function() {
+              progress.classList.remove('show');
+              bar.style.width = '0%';
+            }, 600);
+            showToast('success', arr.length + ' image' + (arr.length > 1 ? 's' : '') + ' uploaded successfully.');
+            fileInput.value = '';
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ─── Search ───────────────────────────────────────────────────────
+    document.getElementById('search-input').addEventListener('input', function() {
+      searchQuery = this.value.trim();
+      render();
+    });
+
+    // ─── View toggle ──────────────────────────────────────────────────
+    document.getElementById('grid-btn').addEventListener('click', function() {
+      isListView = false;
+      document.getElementById('gallery-grid').classList.remove('list-view');
+      this.classList.add('active');
+      document.getElementById('list-btn').classList.remove('active');
+    });
+    document.getElementById('list-btn').addEventListener('click', function() {
+      isListView = true;
+      document.getElementById('gallery-grid').classList.add('list-view');
+      this.classList.add('active');
+      document.getElementById('grid-btn').classList.remove('active');
+    });
+
+    // ─── Lightbox ─────────────────────────────────────────────────────
+    function openLightbox(id) {
+      var filtered = getFilteredImages();
+      currentLbIndex = filtered.findIndex(function(img) { return img.id === id; });
+      showLightboxItem(currentLbIndex);
+    }
+
+    function showLightboxItem(idx) {
+      var filtered = getFilteredImages();
+      if (idx < 0 || idx >= filtered.length) return;
+      currentLbIndex = idx;
+      document.getElementById('lb-img').src = filtered[idx].src;
+      document.getElementById('lb-img').alt = filtered[idx].name;
+      document.getElementById('lb-caption').textContent = filtered[idx].name + ' (' + (idx + 1) + ' / ' + filtered.length + ')';
+      document.getElementById('lightbox').classList.add('open');
+    }
+
+    document.getElementById('lb-close').addEventListener('click', closeLightbox);
+    document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+    document.getElementById('lb-prev').addEventListener('click', function() { showLightboxItem(currentLbIndex - 1); });
+    document.getElementById('lb-next').addEventListener('click', function() { showLightboxItem(currentLbIndex + 1); });
+
+    document.addEventListener('keydown', function(e) {
+      var lb = document.getElementById('lightbox');
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') { closeLightbox(); }
+      if (e.key === 'ArrowLeft') { showLightboxItem(currentLbIndex - 1); }
+      if (e.key === 'ArrowRight') { showLightboxItem(currentLbIndex + 1); }
+    });
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.getElementById('lb-img').src = '';
+    }
+
+    // ─── Toast ────────────────────────────────────────────────────────
+    var toastTimer = null;
+    function showToast(type, msg) {
+      var t = document.getElementById('toast');
+      var icon = document.getElementById('toast-icon');
+      var text = document.getElementById('toast-text');
+      icon.className = 'toast-icon ' + type;
+      icon.innerHTML = type === 'success' ? '<i class="fas fa-check-circle"></i>' : '<i class="fas fa-times-circle"></i>';
+      text.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() { t.classList.remove('show'); }, 3200);
+    }
+
+    // ─── Sidebar mobile ───────────────────────────────────────────────
+    var sidebar = document.getElementById('sidebar');
+    var overlay = document.getElementById('sidebar-overlay');
+    var hbBtn   = document.getElementById('hamburger-btn');
+
+    hbBtn.addEventListener('click', function() {
+      var open = sidebar.classList.toggle('open');
+      overlay.classList.toggle('show', open);
+      hbBtn.setAttribute('aria-expanded', open);
+    });
+    overlay.addEventListener('click', function() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+      hbBtn.setAttribute('aria-expanded', 'false');
+    });
+
+    // ─── Logout ───────────────────────────────────────────────────────
+    document.getElementById('btn-logout').addEventListener('click', function() {
+      sessionStorage.removeItem(SESSION_KEY);
+      window.location.replace('admin-login.html');
+    });
+
+    // ─── Init ─────────────────────────────────────────────────────────
+    loadImages();
+    render();
+  </script>
+
+</body>
+</html>
