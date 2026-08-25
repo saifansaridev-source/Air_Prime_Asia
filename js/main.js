@@ -196,7 +196,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 }); 
+// --- Air Charter Popup Logic (Temporarily Disabled) ---
+// Set to true in future when you want to enable the popup again
+var ENABLE_POPUP = false;
+
 document.addEventListener("DOMContentLoaded", function () {
+  if (!ENABLE_POPUP) return; // Popup temporarily stopped
+
   var overlay = document.getElementById("apaPopupOverlay");
   var closeBtn = document.getElementById("apaPopupClose");
   var skipBtn = document.getElementById("apaPopupSkip");

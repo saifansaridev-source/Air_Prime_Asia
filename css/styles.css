@@ -1613,7 +1613,7 @@ textarea.form-control {
 }
 
 .flying-training-banner {
-  background: linear-gradient(rgba(10, 17, 40, 0.25), rgba(5, 9, 23, 0.35)), url('../images/Lflying.jpeg') no-repeat center center/100% 100%;
+  background: linear-gradient(rgba(10, 17, 40, 0.25), rgba(5, 9, 23, 0.35)), url('../images/flying1.jpeg') no-repeat center center/100% 100%;
   min-height: calc(90vh - var(--header-height));
   display: flex;
   align-items: center;
@@ -1627,7 +1627,7 @@ textarea.form-control {
 }
 
 .ground-training-banner {
-  background: linear-gradient(rgba(10, 17, 40, 0.25), rgba(5, 9, 23, 0.35)), url('../images/yoyo3.jpeg') no-repeat center center/100% 100%;
+  background: linear-gradient(rgba(10, 17, 40, 0.25), rgba(5, 9, 23, 0.35)), url('../images/ground1.jpeg') no-repeat center center/100% 100%;
   min-height: calc(90vh - var(--header-height));
   display: flex;
   align-items: center;
