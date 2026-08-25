@@ -1606,7 +1606,7 @@ textarea.form-control {
 }
 
 .pilot-training-banner {
-  background: linear-gradient(rgba(10, 17, 40, 0.25), rgba(5, 9, 23, 0.35)), url('../images/fresh7-scaled-1.webp') no-repeat center center/100% 100%;
+  background: linear-gradient(rgba(10, 17, 40, 0.25), rgba(5, 9, 23, 0.35)), url('../images/han12.jpeg') no-repeat center center/100% 100%;
   min-height: calc(90vh - var(--header-height));
   display: flex;
   align-items: center;
